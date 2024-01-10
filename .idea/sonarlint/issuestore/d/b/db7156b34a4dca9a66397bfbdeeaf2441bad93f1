@@ -1,0 +1,8 @@
+
+q
+java:S1450"[Remove the "subscription" field and declare it as a local variable in the relevant methods.(í¡ÌÀ
+@	java:S106"+Replace this use of System.out by a logger.(–íä
+@	java:S106"+Replace this use of System.out by a logger.(’Ë§›
+E	java:S106"+Replace this use of System.out by a logger.(êƒì¸øÿÿÿÿ
+F
+java:S1068"0Remove this unused "subscription" private field.(í¡ÌÀ

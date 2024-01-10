@@ -20,11 +20,10 @@ public final class SystemUtils {
     private SystemUtils() {
     }
 
-    public static @Nullable String getAppIdentifier() {
+    public static UUID getAppIdentifier() {
         try {
             var macAddressBytes = fetchMachineAddress();
-            UUID uuid = UUID.nameUUIDFromBytes(macAddressBytes);
-            return uuid.toString();
+            return UUID.nameUUIDFromBytes(macAddressBytes);
         } catch (UnknownHostException | SocketException _) {
             return null;
         }
@@ -33,8 +32,8 @@ public final class SystemUtils {
     public static @Nullable String getMacAddress() {
         try {
             var macAddressBytes = fetchMachineAddress();
+            var macAddressStringBuilder = new StringBuilder();
 
-            StringBuilder macAddressStringBuilder = new StringBuilder();
             for (int i = 0; i < macAddressBytes.length; i++) {
                 macAddressStringBuilder.append("%02X%s".formatted(macAddressBytes[i], (i < macAddressBytes.length - 1) ? "-" : ""));
             }
