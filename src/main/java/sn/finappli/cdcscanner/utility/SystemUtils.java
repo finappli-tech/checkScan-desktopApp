@@ -15,26 +15,27 @@ import java.util.UUID;
 
 public final class SystemUtils {
 
+    public static final String DEFAULT_ENCODER = "HmacSHA256";
+    public static final int TOKEN_EXPIRATION = 4 * 60 * 60; // seconds
     private static final String IP_URL = "https://httpbin.org/ip";
 
     private SystemUtils() {
     }
 
-    public static @Nullable String getAppIdentifier() {
+    public static UUID getAppIdentifier() {
         try {
             var macAddressBytes = fetchMachineAddress();
-            UUID uuid = UUID.nameUUIDFromBytes(macAddressBytes);
-            return uuid.toString();
-        } catch (UnknownHostException | SocketException _) {
-            return null;
+            return UUID.nameUUIDFromBytes(macAddressBytes);
+        } catch (Exception _) {
+            throw new IllegalArgumentException("CANNOT RETRIEVE APPID");
         }
     }
 
     public static @Nullable String getMacAddress() {
         try {
             var macAddressBytes = fetchMachineAddress();
+            var macAddressStringBuilder = new StringBuilder();
 
-            StringBuilder macAddressStringBuilder = new StringBuilder();
             for (int i = 0; i < macAddressBytes.length; i++) {
                 macAddressStringBuilder.append("%02X%s".formatted(macAddressBytes[i], (i < macAddressBytes.length - 1) ? "-" : ""));
             }
