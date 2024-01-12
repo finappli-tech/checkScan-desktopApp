@@ -1,4 +1,9 @@
 
-]	java:S125-"<This block of commented-out lines of code should be removed.(¨™‡ûÿÿÿÿ8ô†‡Ï1
+“
+java:S1130,"wRemove the declaration of thrown exception 'java.lang.InterruptedException', as it cannot be thrown from method's body.(º™Ú78ğÑÕÖÏ1
+]	java:S125-"<This block of commented-out lines of code should be removed.(¨™‡ûÿÿÿÿ8²¨Ò¢Ï1
 ^
-java:S10750"ARefactor your code to get this URI from a customizable parameter.(é€ŒÄ8ö†‡Ï1
+java:S1075/"ARefactor your code to get this URI from a customizable parameter.(é€ŒÄ8şÖÖÏ1
+]	java:S1256"<This block of commented-out lines of code should be removed.(´£ç‚øÿÿÿÿ8óÑÕÖÏ1
+s
+java:S1128"QRemove this unused import 'sn.finappli.cdcscanner.model.input.RegistrationInput'.(Ëîøñøÿÿÿÿ8ŠÖÖÏ1

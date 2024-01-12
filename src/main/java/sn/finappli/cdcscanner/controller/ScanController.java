@@ -4,8 +4,11 @@ import javafx.fxml.Initializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sn.finappli.cdcscanner.model.output.ScanRegistrationOutput;
+import sn.finappli.cdcscanner.service.OCRReader;
+import sn.finappli.cdcscanner.service.impl.TesseractOCRReaderImpl;
 import sn.finappli.cdcscanner.utility.Utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.HttpCookie;
 import java.net.URI;
@@ -13,7 +16,6 @@ import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
 public class ScanController implements Initializable {
@@ -25,13 +27,13 @@ public class ScanController implements Initializable {
 
     }
 
-    public void send(ScanRegistrationOutput output) {
+    private void send(ScanRegistrationOutput output) {
         try (HttpClient client = HttpClient.newHttpClient()) {
             var body = Utils.classToJson(output);
 
             log.info(body);
 
-            var cookie = new HttpCookie("access_token", "eyJhbGciOiJIUzI1NiJ9.eyJsLWxldiI6IkhtYWNTSEEyNTYiLCJpc3MiOiJtb2hhbWVkLmthIiwiZXhwIjoxNzA0OTMwOTU5LCJsb2dpbiI6Im1vaGFtZWQua2EiLCJqdGkiOiI2ZjZhMjczNS1iYjUzLTQ5OGItYjNkMC05M2E5ZGRiNTAxZDkifQ.27eClEtGLAMssCyqxBpOVnaPsyhiPu3qbhSoyB9AsCQ");
+            var cookie = new HttpCookie("access_token", "eyJhbGciOiJIUzI1NiJ9.eyJsLWxldiI6IkhtYWNTSEEyNTYiLCJpc3MiOiJtb2hhbWVkLmthIiwiZXhwIjoxNzA0OTkwODg5LCJsb2dpbiI6Im1vaGFtZWQua2EiLCJqdGkiOiI5MGU4Y2I4ZC0yNDgyLTQ1YjgtOThkYS0yZDk0ZWYyZDE2OTgifQ.MfcevTlramzuL-zkPFm7G91FNTOH3nEvQVxl-oLnZQI");
 
             cookie.setPath("/");
             cookie.setDomain("localhost");
@@ -46,11 +48,7 @@ public class ScanController implements Initializable {
                     .header("Cookie", cookie.toString())
                     .build();
 
-            // Send the request and get the response
-            var response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-
-            log.info(STR."Status Code: \{response.statusCode()}");
-            log.info(STR."Response Body: \{response.body()}");
+            client.send(request, HttpResponse.BodyHandlers.discarding());
 
         } catch (IOException e) {
             log.error(e.getMessage(), e);
@@ -58,5 +56,10 @@ public class ScanController implements Initializable {
             Thread.currentThread().interrupt();
             log.error(e.getMessage(), e);
         }
+    }
+
+    private String getCMCFromOcrReader(File file) {
+        OCRReader reader = new TesseractOCRReaderImpl();
+        return reader.read(file);
     }
 }

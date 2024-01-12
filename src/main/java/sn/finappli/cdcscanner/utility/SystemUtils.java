@@ -15,6 +15,8 @@ import java.util.UUID;
 
 public final class SystemUtils {
 
+    public static final String DEFAULT_ENCODER = "HmacSHA256";
+    public static final int TOKEN_EXPIRATION = 4 * 60 * 60; // seconds
     private static final String IP_URL = "https://httpbin.org/ip";
 
     private SystemUtils() {
@@ -24,8 +26,8 @@ public final class SystemUtils {
         try {
             var macAddressBytes = fetchMachineAddress();
             return UUID.nameUUIDFromBytes(macAddressBytes);
-        } catch (UnknownHostException | SocketException _) {
-            return null;
+        } catch (Exception _) {
+            throw new IllegalArgumentException("CANNOT RETRIEVE APPID");
         }
     }
 

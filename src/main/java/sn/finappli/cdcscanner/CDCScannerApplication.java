@@ -9,8 +9,8 @@ import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sn.finappli.cdcscanner.controller.ScanController;
+import sn.finappli.cdcscanner.model.input.RegistrationInput;
 import sn.finappli.cdcscanner.model.output.ScanRegistrationOutput;
-import sn.finappli.cdcscanner.service.OCRReader;
 import sn.finappli.cdcscanner.service.impl.ScannerServiceImpl;
 import sn.finappli.cdcscanner.service.impl.TesseractOCRReaderImpl;
 import sn.finappli.cdcscanner.utility.SystemUtils;
@@ -41,18 +41,17 @@ public class CDCScannerApplication extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 //        launch();
-
-        OCRReader reader = new TesseractOCRReaderImpl();
+        var ocr = new TesseractOCRReaderImpl();
         var file = new File("C:\\Users\\Seydou.Sow\\Downloads\\ze.pdf");
-        var response = reader.read(file);
-        var mac = SystemUtils.getAppIdentifier();
-        var ip = SystemUtils.getIPAddress();
-        var body = new ScanRegistrationOutput(mac, ip, response, "Seydou Sow", LocalDateTime.now(), BigDecimal.valueOf(1000d));
+        var cmc = ocr.read(file);
+
+        var body = new ScanRegistrationOutput(SystemUtils.getAppIdentifier(), SystemUtils.getIPAddress(), cmc, "Mbacke sy", LocalDateTime.now(), BigDecimal.valueOf(100000));
 
         var ctl = new ScanController();
         ctl.send(body);
-        System.exit(0);
+//        System.exit(0);
+
     }
 }
