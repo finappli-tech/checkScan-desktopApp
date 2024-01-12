@@ -16,7 +16,7 @@ import java.util.UUID;
 public final class SystemUtils {
 
     public static final String DEFAULT_ENCODER = "HmacSHA256";
-    public static final int TOKEN_EXPIRATION = 4 * 60 * 60; // seconds
+    public static final int TOKEN_EXPIRATION = 6 * 60 * 60; // seconds
     private static final String IP_URL = "https://httpbin.org/ip";
 
     private SystemUtils() {

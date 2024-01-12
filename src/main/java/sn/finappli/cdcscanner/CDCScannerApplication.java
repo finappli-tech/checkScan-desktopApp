@@ -8,22 +8,27 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sn.finappli.cdcscanner.controller.ScanController;
-import sn.finappli.cdcscanner.model.input.RegistrationInput;
-import sn.finappli.cdcscanner.model.output.ScanRegistrationOutput;
+import sn.finappli.cdcscanner.security.SecurityContextHolder;
+import sn.finappli.cdcscanner.service.RegistrationService;
+import sn.finappli.cdcscanner.service.impl.RegistrationServiceImpl;
 import sn.finappli.cdcscanner.service.impl.ScannerServiceImpl;
-import sn.finappli.cdcscanner.service.impl.TesseractOCRReaderImpl;
-import sn.finappli.cdcscanner.utility.SystemUtils;
 
-import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class CDCScannerApplication extends Application {
 
     private static final Logger logger = LoggerFactory.getLogger(CDCScannerApplication.class);
+
+    private final RegistrationService registrationService;
+
+    CDCScannerApplication(RegistrationServiceImpl registrationService) {
+        this.registrationService = registrationService;
+    }
+
+    public static void main(String[] args) {
+        launch();
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -39,19 +44,22 @@ public class CDCScannerApplication extends Application {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
-    }
 
-    public static void main(String[] args) throws InterruptedException {
-//        launch();
-        var ocr = new TesseractOCRReaderImpl();
-        var file = new File("C:\\Users\\Seydou.Sow\\Downloads\\ze.pdf");
-        var cmc = ocr.read(file);
+        try {
+            SecurityContextHolder.clearContext();
+            var isAppRegistered = registrationService.isRegistered();
 
-        var body = new ScanRegistrationOutput(SystemUtils.getAppIdentifier(), SystemUtils.getIPAddress(), cmc, "Mbacke sy", LocalDateTime.now(), BigDecimal.valueOf(100000));
-
-        var ctl = new ScanController();
-        ctl.send(body);
-//        System.exit(0);
+            if (isAppRegistered) {
+                // TODO redirect to login page
+            }
+            else {
+                // TODO redirect to registration page
+            }
+        } catch (InterruptedException e) {
+            logger.error(e.getMessage(), e);
+            // TODO throw error to user
+            System.exit(1);
+        }
 
     }
 }

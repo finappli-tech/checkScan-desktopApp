@@ -370,3 +370,5 @@ w
 G.idea/sonarlint/issuestore/1/4/14380a0134fc4fe34d5994e38e4fcfbb511f6622,1\b\1bccff5c1dc4aef509630413bb32b301c8c92570
 w
 G.idea/sonarlint/issuestore/7/6/76533160e1760c6973f069b5320441f235c88022,8\2\828a6518180793b9dab02d8e7124efc7751be2f8
+~
+Nsrc/main/java/sn/finappli/cdcscanner/service/impl/RegistrationServiceImpl.java,3\7\37274f3d9b007b6361a47c510090dfc976747c35
