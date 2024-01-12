@@ -6,7 +6,7 @@ import sn.finappli.cdcscanner.model.output.RegistrationOutput;
 
 public interface RegistrationService {
 
-    boolean isRegistered(RegistrationCheckerOutput registrationCheckerOutput);
+    boolean isRegistered() throws InterruptedException;
 
     boolean register(RegistrationOutput registrationOutput);
 

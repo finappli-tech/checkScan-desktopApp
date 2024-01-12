@@ -1,9 +1,11 @@
 
-“
-java:S1130,"wRemove the declaration of thrown exception 'java.lang.InterruptedException', as it cannot be thrown from method's body.(º™Ú78ðÑÕÖÏ1
-]	java:S125-"<This block of commented-out lines of code should be removed.(¨™‡ûÿÿÿÿ8²¨Ò¢Ï1
-^
-java:S1075/"ARefactor your code to get this URI from a customizable parameter.(é€ŒÄ8þŽÖÖÏ1
-]	java:S1256"<This block of commented-out lines of code should be removed.(´£ç‚øÿÿÿÿ8óÑÕÖÏ1
-s
-java:S1128"QRemove this unused import 'sn.finappli.cdcscanner.model.input.RegistrationInput'.(Ëîøñøÿÿÿÿ8ŠÖÖÏ1
+{
+java:S2142:"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€8Î…¿ÜÏ1
+}
+java:S39234"[Remove this conditional structure or edit its code blocks so that they're not all the same.(ÚÓ¹Šûÿÿÿÿ8›ýÆÜÏ1
+O
+java:S11355"2Complete the task associated to this TODO comment.(ºÛâÌ8çÆÅÜÏ1
+O
+java:S11358"2Complete the task associated to this TODO comment.(ŒØÏ’8œýÆÜÏ1
+O
+java:S1135<"2Complete the task associated to this TODO comment.(¹Í•µ8¨½ËÜÏ1
