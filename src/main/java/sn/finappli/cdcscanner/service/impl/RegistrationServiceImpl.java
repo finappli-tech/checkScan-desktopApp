@@ -18,7 +18,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             return true;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            return null;
+            return false;
         }
     }
 
