@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="javafx-preloader" build-on-make="true" name="preloader">
+    <output-path>$PROJECT_DIR$/out/artifacts/preloader</output-path>
+    <properties id="javafx-preloader-properties">
+      <options>
+        <option name="preloaderClass" value="sn.finappli.cdcscanner.controller.AppPreloader" />
+      </options>
+    </properties>
+    <root id="archive" name="preloader.jar" />
+  </artifact>
+</component>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sn.finappli.cdcscanner.controller.ScanController">
+   <children>
+      <VBox prefHeight="600.0" prefWidth="300.0">
+         <children>
+            <Pane prefHeight="200.0" prefWidth="200.0" />
+            <Pane prefHeight="78.0" prefWidth="300.0">
+               <children>
+                  <ChoiceBox layoutX="8.0" layoutY="39.0" prefHeight="26.0" prefWidth="254.0" />
+                  <Button fx:id="refreshButton" layoutX="262.0" layoutY="40.0" mnemonicParsing="false" onAction="#fetchAvailableScanners" />
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+      <HBox layoutX="300.0" prefHeight="70.0" prefWidth="599.0" />
+   </children>
+</AnchorPane>

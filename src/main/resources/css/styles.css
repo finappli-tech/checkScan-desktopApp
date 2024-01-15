@@ -1,6 +1,150 @@
-@import "loader.css";
 @import "button.css";
 @import "input.css";
 @import "form.css";
-@import "table.css";
 
+root * {
+    -fx-font-family: Georgia, Calibri, "Roboto Light", Serif;
+}
+
+.anchorPane {
+    -fx-background-color: #030303 !important;
+}
+
+.text-base {
+    -fx-font-size: 14;
+}
+
+.text-xl {
+    -fx-font-size: 28 !important;
+}
+
+.text-2xl {
+    -fx-font-size: 34 !important;
+}
+
+.text-3xl {
+    -fx-font-size: 40;
+}
+
+.text-center {
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+
+.text-left {
+    -fx-alignment: center-left;
+    -fx-text-alignment: left;
+}
+
+.text-right {
+    -fx-alignment: center-right;
+    -fx-text-alignment: right;
+}
+
+.text-white {
+    -fx-text-fill: white !important;
+}
+
+.footer-text {
+    -fx-text-alignment: right;
+    -fx-alignment: bottom-right;
+    -fx-label-padding: 0 10 10 0;
+}
+
+.overlay {
+    -fx-background-color: #000000;
+    /*-fx-opacity: .4;*/
+}
+
+/*######################### TABLE ##########################*/
+.column {
+    -fx-cursor: hand;
+}
+
+.column.centered {
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+.pagination {
+    -fx-cursor: hand;
+    -fx-background-color: white;
+    -fx-text-fill: white !important;
+    -fx-page-information-visible: false;
+}
+
+/* Remove spacing */
+.pagination > .pagination-control > .control-box {
+    -fx-spacing: 2;
+    -fx-font-size: 10;
+}
+
+.pagination > .pagination-control > .control-box > .number-button,
+.pagination > .pagination-control > .control-box > .bullet-button {
+    -fx-background-insets: 0, 1;
+    -fx-background-color: #030303;
+    -fx-text-fill: white;
+    -fx-min-width: 25;
+    -fx-min-height: 25;
+
+    -fx-border-width: 1;
+    -fx-border-style: solid;
+    -fx-border-color: #030303;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.pagination > .pagination-control > .control-box > .left-arrow-button,
+.pagination > .pagination-control > .control-box > .right-arrow-button {
+    -fx-background-color: transparent;
+}
+
+
+/* Colors on hover */
+.pagination > .pagination-control > .control-box > .number-button:hover,
+.pagination > .pagination-control > .control-box > .bullet-button:hover {
+    -fx-background-insets: 0;
+    -fx-background-color: #282828;
+}
+
+/* Selected toggle color */
+.pagination > .pagination-control > .control-box > .number-button:selected,
+.pagination > .pagination-control > .control-box > .bullet-button:selected {
+    -fx-background-insets: 0;
+    -fx-background-color: white;
+    -fx-text-fill: #030303;
+    -fx-border-color: #030303;
+}
+
+/*################## Refresh Icon Button #####################*/
+.refresh-button {
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-content-display: graphic-only;
+}
+
+.refresh-button .refresh-icon {
+    -fx-background-color: transparent;
+    -fx-border-width: 2;
+    -fx-border-color: white;
+    -fx-border-style: solid;
+    -size: 24;
+    -fx-min-height: -size;
+    -fx-min-width: -size;
+    -fx-max-height: -size;
+    -fx-max-width: -size;
+    -fx-shape: "M21 12C21 16.9706 16.9706 21 12 21C9.69494 21 7.59227 20.1334 6 18.7083L3 16M3 12C3 7.02944 7.02944 3 12 3C14.3051 3 16.4077 3.86656 18 5.29168L21 8M3 21V16M3 16H8M21 3V8M21 8H16";
+}
+
+/*################# Progress Bar Indicator #######################*/
+.homeIndicator {
+    -fx-progress-color: white;
+    -fx-font-size: 30;
+    -size: 80;
+    -fx-min-width: -size;
+    -fx-min-height: -size;
+    -fx-pref-width: -size;
+    -fx-pref-height: -size;
+    -fx-max-width: -size;
+    -fx-max-height: -size;
+}

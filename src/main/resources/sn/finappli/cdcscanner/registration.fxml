@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sn.finappli.cdcscanner.controller.RegistrationController">
+    <AnchorPane prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #282828;">
+        <ImageView fitHeight="170.0" fitWidth="170.0" layoutX="115.0" layoutY="150.0" pickOnBounds="true">
+            <Image url="@../../../images/scan-cheque-img.png" />
+        </ImageView>
+        <Label alignment="CENTER" layoutX="35.0" layoutY="348.0" prefHeight="17.0" prefWidth="330.0" text="Scan chèque" textFill="WHITE">
+            <styleClass>
+                <String fx:value="bigTitle" />
+                <String fx:value="scan-cheque" />
+            </styleClass>
+        </Label>
+        <ImageView cache="true" fitHeight="67.0" fitWidth="93.0" pickOnBounds="true" smooth="false">
+            <Image url="@../../../images/logo.png" />
+        </ImageView>
+      <Label layoutX="55.0" layoutY="565.0" prefHeight="35.0" prefWidth="400.0" styleClass="footer-text" text="Finappli SAS ©" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="565.0" />
+    </AnchorPane>
+    <AnchorPane layoutX="400.0" prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #030303;">
+        <Label layoutX="35.0" layoutY="64.0" prefHeight="37.0" prefWidth="330.0" styleClass="bigTitle" text="Enregistrement" textFill="#fffefe">
+        </Label>
+        <Label layoutX="35.0" layoutY="202.0" prefHeight="25.0" prefWidth="330.0" text="Identifiant" textAlignment="CENTER" textFill="WHITE">
+        </Label>
+        <TextField fx:id="token" layoutX="35.0" layoutY="313.0" prefHeight="35.0" prefWidth="330.0" styleClass="field" />
+        <Label layoutX="35.0" layoutY="288.0" prefHeight="25.0" prefWidth="330.0" text="Token Client" textAlignment="CENTER" textFill="WHITE">
+        </Label>
+        <TextField fx:id="appId" disable="true" editable="false" layoutX="35.0" layoutY="227.0" prefHeight="35.0" prefWidth="330.0" styleClass="field">
+            <cursor>
+                <Cursor fx:constant="DEFAULT" />
+            </cursor>
+        </TextField>
+        <Button fx:id="saveButton" alignment="CENTER" defaultButton="true" disable="true" layoutX="35.0" layoutY="407.0" mnemonicParsing="false" onAction="#executeAppRegistration" prefHeight="38.0" prefWidth="330.0" stylesheets="@../../../css/button.css" text="Enregistrer">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+        <ProgressIndicator fx:id="loader" layoutX="187.0" layoutY="492.0" />
+    </AnchorPane>
+</AnchorPane>

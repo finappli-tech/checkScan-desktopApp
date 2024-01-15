@@ -3,10 +3,6 @@ module sn.finappli.cdcscanner {
     requires javafx.fxml;
 
     requires org.controlsfx.controls;
-    requires com.dlsc.formsfx;
-    requires net.synedra.validatorfx;
-    requires org.kordamp.ikonli.javafx;
-    requires org.kordamp.bootstrapfx.core;
     requires org.jetbrains.annotations;
     requires tess4j;
     requires commons.lang3;
@@ -18,6 +14,9 @@ module sn.finappli.cdcscanner {
     requires com.fasterxml.jackson.datatype.jsr310;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.module.paramnames;
+    requires org.yaml.snakeyaml;
+    requires batik.transcoder;
+    requires javafx.swing;
 
     opens sn.finappli.cdcscanner to javafx.fxml;
     exports sn.finappli.cdcscanner;

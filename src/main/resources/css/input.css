@@ -1,0 +1,15 @@
+.field {
+    -fx-background-color: #323232;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: transparent;
+    -fx-font-family: Calibri, "Roboto Light", Serif;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.label {
+    -fx-font-family: Calibri, "Roboto Light", Serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+}

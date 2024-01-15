@@ -1,7 +1,5 @@
 
-£
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(•‘İŸüÿÿÿÿ8ñÀ´ÛÏ1
-F
-java:S1144")Remove this unused private "send" method.(Ú†®8«ôäÛÏ1
+r	java:S1176"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±şØúÿÿÿÿ8İ¾†ØĞ1
+G	java:S1061"+Replace this use of System.out by a logger.(Ú·Ş¢8ç¾†ØĞ1
 Z
-java:S1144="8Remove this unused private "getCMCFromOcrReader" method.(·êÌèúÿÿÿÿ8„Â´ÛÏ1
+java:S1144:"8Remove this unused private "getCMCFromOcrReader" method.(·êÌèúÿÿÿÿ8ê¾†ØĞ1

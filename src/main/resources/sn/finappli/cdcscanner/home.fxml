@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import java.lang.String?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import impl.org.controlsfx.spreadsheet.TableViewSpanSelectionModel?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="600.0" prefWidth="900.0"
+            styleClass="anchorPane" xmlns="http://javafx.com/javafx/11.0.14-internal"
+            fx:controller="sn.finappli.cdcscanner.controller.HomeController">
+    <VBox fx:id="container">
+        <ToolBar prefHeight="41.0" prefWidth="900.0">
+            <ImageView cache="true" fitHeight="60.0" fitWidth="180.0" mouseTransparent="true" pickOnBounds="true">
+                <Image url="@../../../images/logo-cdc-202.png"/>
+            </ImageView>
+            <ButtonBar prefHeight="60.0" prefWidth="704.0">
+                <buttons>
+                    <Button fx:id="newScanButton" mnemonicParsing="false" onAction="#launchNewScan" prefHeight="40.0"
+                            prefWidth="140.0" text="Nouveau Scan"/>
+                    <Button fx:id="paramButton" mnemonicParsing="false" onAction="#toggleParameters" prefHeight="40.0"
+                            prefWidth="140.0" text="Paramètres"/>
+                </buttons>
+                <padding>
+                    <Insets right="20.0"/>
+                </padding>
+            </ButtonBar>
+        </ToolBar>
+        <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="900.0">
+            <Label prefHeight="30.0" prefWidth="847.0" text="Historique de Scan">
+                <styleClass>
+                    <String fx:value="text-xl"/>
+                    <String fx:value="text-white"/>
+                    <String fx:value="text-left"/>
+                </styleClass>
+                <padding>
+                    <Insets left="10.0"/>
+                </padding>
+            </Label>
+            <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshTable" styleClass="refresh-button"/>
+        </HBox>
+        <TableView fx:id="historyTable" prefHeight="416.0" prefWidth="900.0">
+            <placeholder>
+                <Label>Aucune donnée disponible</Label>
+            </placeholder>
+            <columns>
+                <TableColumn fx:id="creationColumn" editable="false" prefWidth="118.0" resizable="false"
+                             text="Date création">
+                    <cellValueFactory><PropertyValueFactory property="date"/> </cellValueFactory>
+                    <styleClass>
+                        <String fx:value="column"/>
+                        <String fx:value="centered"/>
+                    </styleClass>
+                </TableColumn>
+                <TableColumn fx:id="dateColumn" editable="false" prefWidth="90.0" resizable="false" text="Date chèque">
+                    <cellValueFactory><PropertyValueFactory property="createdAt"/> </cellValueFactory>
+                    <styleClass>
+                        <String fx:value="column"/>
+                        <String fx:value="centered"/>
+                    </styleClass>
+                </TableColumn>
+                <TableColumn fx:id="cmcColumn" editable="false" minWidth="0.0" prefWidth="192.0" resizable="false"
+                             text="CMC">
+                    <cellValueFactory><PropertyValueFactory property="cmc"/> </cellValueFactory>
+                    <styleClass>
+                        <String fx:value="column"/>
+                        <String fx:value="centered"/>
+                    </styleClass>
+                </TableColumn>
+                <TableColumn fx:id="recipientColumn" editable="false" maxWidth="1.7976931348623157E308"
+                             prefWidth="273.0" resizable="false" text="Bénéficiaire">
+                    <cellValueFactory><PropertyValueFactory property="recipient"/> </cellValueFactory>
+                    <styleClass>
+                        <String fx:value="column"/>
+                        <String fx:value="centered"/>
+                    </styleClass>
+                </TableColumn>
+                <TableColumn fx:id="amountColumn" editable="false" prefWidth="117.0" resizable="false" text="Montant">
+                    <cellValueFactory><PropertyValueFactory property="amount"/> </cellValueFactory>
+                    <styleClass>
+                        <String fx:value="column"/>
+                        <String fx:value="centered"/>
+                    </styleClass>
+                </TableColumn>
+                <TableColumn fx:id="statusColumn" editable="false" prefWidth="95.0" resizable="false" text="Status">
+                    <cellValueFactory><PropertyValueFactory property="status"/> </cellValueFactory>
+                    <styleClass>
+                        <String fx:value="column"/>
+                        <String fx:value="centered"/>
+                    </styleClass>
+                </TableColumn>
+            </columns>
+        </TableView>
+        <Pagination fx:id="pagination" pageCount="0" prefHeight="55.0" prefWidth="900.0" styleClass="pagination"/>
+    </VBox>
+    <ProgressIndicator fx:id="loader" layoutX="410.0" layoutY="260.0" visible="false" styleClass="homeIndicator"/>
+</AnchorPane>

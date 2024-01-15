@@ -1,0 +1,11 @@
+.button {
+    -fx-background-color: #323232;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-font-family: Calibri, "Roboto Light", Serif;
+
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: transparent;
+}

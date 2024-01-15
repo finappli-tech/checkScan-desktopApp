@@ -1,34 +1,71 @@
 package sn.finappli.cdcscanner.service.impl;
 
-import sn.finappli.cdcscanner.model.output.RegistrationConfirmationOutput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sn.finappli.cdcscanner.model.output.RegistrationOutput;
 import sn.finappli.cdcscanner.service.RegistrationService;
+import sn.finappli.cdcscanner.utility.ConfigHolder;
 import sn.finappli.cdcscanner.utility.SystemUtils;
+import sn.finappli.cdcscanner.utility.Utils;
 
+import java.io.IOException;
+import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+import static sn.finappli.cdcscanner.utility.Utils.CONTENT_TYPE;
 
 public class RegistrationServiceImpl implements RegistrationService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationServiceImpl.class);
+
     @Override
-    public boolean isRegistered() {
+    public boolean isRegistered() throws IOException, InterruptedException {
         var appId = SystemUtils.getAppIdentifier();
 
         try (var client = HttpClient.newHttpClient()) {
-            Thread.sleep(2000);
-
-            return true;
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            var request = HttpRequest.newBuilder(URI.create(STR."\{ConfigHolder.getContext().getBaseUrl()}/tokens/signup/check-scanner"))
+                    .POST(HttpRequest.BodyPublishers.noBody())
+                    .header("Content-type", CONTENT_TYPE)
+                    .header("appId", appId.toString())
+                    .build();
+            var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200)
+                return true;
+            var error = Utils.buildError(response.statusCode(), response.body());
+            LOGGER.error("REGISTRATION VERIFICATION: {}", error);
             return false;
         }
     }
 
     @Override
     public boolean register(RegistrationOutput registrationOutput) {
-        return false;
+        try (var client = HttpClient.newHttpClient()) {
+            var url = STR."\{ConfigHolder.getContext().getBaseUrl()}/tokens/signup/scanner";
+            var body = Utils.classToJson(registrationOutput);
+
+            var request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .POST(HttpRequest.BodyPublishers.ofString(body))
+                    .header("Content-type", CONTENT_TYPE)
+                    .build();
+
+            var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                Utils.displaySimpleSuccessfulAlertDialog("Enregistrement", "Réussi!", "Enregistrement effectué avec succès");
+                return true;
+            }
+            var error = Utils.buildError(response.statusCode(), response.body());
+            LOGGER.error("REGISTRATION ERROR");
+            LOGGER.error("\tAPP_ID: {}", registrationOutput.appId());
+            LOGGER.error("\tCLIENT_ID: {}", registrationOutput.digest());
+            LOGGER.error("\t{}", error);
+            Utils.displaySimpleErrorAlertDialog(error.getMessage(), null);
+            return false;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return false;
+        }
     }
 
-    @Override
-    public boolean confirmRegistration(RegistrationConfirmationOutput registrationConfirmationOutput) {
-        return false;
-    }
 }
