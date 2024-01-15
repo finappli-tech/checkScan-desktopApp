@@ -7,6 +7,7 @@ import sn.finappli.cdcscanner.model.output.AuthenticationOutput;
 import sn.finappli.cdcscanner.security.SecurityContext;
 import sn.finappli.cdcscanner.security.SecurityContextHolder;
 import sn.finappli.cdcscanner.service.AuthenticationService;
+import sn.finappli.cdcscanner.utility.ConfigHolder;
 import sn.finappli.cdcscanner.utility.SystemUtils;
 import sn.finappli.cdcscanner.utility.Utils;
 
@@ -22,9 +23,8 @@ import static sn.finappli.cdcscanner.utility.Utils.buildError;
 
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
-
-    private static final String URL = "http://localhost:8090/api/tokens/signin/scanner";
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
+    private static final String LOGIN_PATH = "/tokens/signin/scanner";
 
     @Override
     public void requestAuthentication(String telephone) {
@@ -35,17 +35,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         try (HttpClient client = HttpClient.newHttpClient()) {
             var object = AuthenticationOutput.builder().appId(SystemUtils.getAppIdentifier()).code(code).build();
             var body = Utils.classToJson(object);
-            var request = HttpRequest.newBuilder(URI.create(STR."\{URL}?uuid=\{uuid}")) // TODO: To be updated
+            var request = HttpRequest.newBuilder(URI.create(STR."\{ConfigHolder.getContext().getBaseUrl()}\{LOGIN_PATH}"))
                     .header("Content-type", Utils.CONTENT_TYPE)
+                    .header("Proxy-Authenticate", Utils.strToHex(uuid))
                     .POST(HttpRequest.BodyPublishers.ofString(body))
                     .build();
             var response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
 
             if (response.statusCode() != 200) {
                 var error = buildError(response.statusCode(), response.body());
-                logger.error("AUTHENTICATION ERROR");
-                logger.error("\tAppId: {}", object.appId());
-                logger.error("\tError: {}", error);
+                LOGGER.error("AUTHENTICATION ERROR");
+                LOGGER.error("\tAppId: {}", object.appId());
+                LOGGER.error("\tError: {}", error);
                 return false;
             } else {
                 storeToken(response);
@@ -53,7 +54,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             }
         } catch (Exception e) {
             if (e instanceof InterruptedException) Thread.currentThread().interrupt();
-            logger.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
             return false;
         }
     }

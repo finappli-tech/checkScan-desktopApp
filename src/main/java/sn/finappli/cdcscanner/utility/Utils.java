@@ -20,6 +20,8 @@ import sn.finappli.cdcscanner.model.input.APIError;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
@@ -134,6 +136,14 @@ public final class Utils {
             region.getStyleClass().add("refresh-icon");
             button.setGraphic(region);
         }
+    }
+
+    @Contract("_ -> new")
+    public static @NotNull String strToHex(String str) {
+        if (isBlank(str)) throw new NullPointerException("No value provided");
+        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
+        var bigInt = new BigInteger(1, bytes);
+        return String.format(STR."%0\{bytes.length << 1}x", bigInt);
     }
 
 }
