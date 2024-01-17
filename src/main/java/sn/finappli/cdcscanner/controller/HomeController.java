@@ -81,14 +81,13 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Utils.configureRefreshButton(refreshButton);
-        refreshButton.setOnMouseClicked(_ -> refreshTable());
+        refreshButton.setOnMouseClicked(e -> refreshTable());
 
-        pagination.currentPageIndexProperty().addListener((_, _, _) -> refreshTable());
+        pagination.currentPageIndexProperty().addListener((x, y, z) -> refreshTable());
 
         historyTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        historyTable.getSelectionModel().selectedItemProperty().addListener((_, _, newSelection) -> {
-            if (Objects.isNull(newSelection)) return;
-            System.out.println(newSelection);
+        historyTable.getSelectionModel().selectedItemProperty().addListener((x, y, newSelection) -> {
+//            if (Objects.isNull(newSelection)) return;
         });
         refreshButton.fire();
     }
@@ -104,7 +103,7 @@ public class HomeController implements Initializable {
                 return itemsService.listScannedItems(pagination.getCurrentPageIndex());
             }
         };
-        task.setOnRunning(_ -> {
+        task.setOnRunning(e -> {
             container.setDisable(true);
             loader.setVisible(true);
         });
@@ -115,17 +114,12 @@ public class HomeController implements Initializable {
             container.setDisable(false);
             loader.setVisible(false);
         });
-        task.setOnFailed(_ -> {
+        task.setOnFailed(e -> {
             historyTable.setItems(FXCollections.emptyObservableList());
             container.setDisable(false);
             loader.setVisible(false);
         });
         new Thread(task).start();
-    }
-
-    @FXML
-    void toggleParameters(ActionEvent __) {
-
     }
 
     @FXML

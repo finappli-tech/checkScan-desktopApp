@@ -41,7 +41,7 @@ public final class HttpUtils {
             cookieManager.getCookieStore().add(URI.create(uri), getTokenCookie());
 
             return HttpRequest.newBuilder()
-                    .header("cookie", STR."access_token=\{sec.token()}")
+                    .header("cookie", "access_token=%s".formatted(sec.token()))
                     .header("Content-type", Utils.CONTENT_TYPE)
                     .header("X-Once", date)
                     .header("X-Digest", digest);

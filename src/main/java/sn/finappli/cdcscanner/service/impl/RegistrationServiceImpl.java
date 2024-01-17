@@ -23,29 +23,28 @@ public class RegistrationServiceImpl implements RegistrationService {
     public boolean isRegistered() throws IOException, InterruptedException {
         var appId = SystemUtils.getAppIdentifier();
 
-        try (var client = HttpClient.newHttpClient()) {
-            var request = HttpRequest.newBuilder(URI.create(STR."\{ConfigHolder.getContext().getBaseUrl()}/tokens/signup/check-scanner"))
-                    .POST(HttpRequest.BodyPublishers.noBody())
-                    .header("Content-type", CONTENT_TYPE)
-                    .header("appId", appId.toString())
-                    .build();
-            var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() == 200)
-                return true;
-            var error = Utils.buildError(response.statusCode(), response.body());
-            LOGGER.error("REGISTRATION VERIFICATION: {}", error);
-            return false;
-        }
+        var client = HttpClient.newHttpClient();
+        var request = HttpRequest.newBuilder(URI.create(ConfigHolder.getContext().getCheckAppRegistrationUrl()))
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .header("Content-type", CONTENT_TYPE)
+                .header("appId", appId.toString())
+                .build();
+        var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() == 200)
+            return true;
+        var error = Utils.buildError(response.statusCode(), response.body());
+        LOGGER.error("REGISTRATION VERIFICATION: {}", error);
+        return false;
     }
 
     @Override
     public boolean register(RegistrationOutput registrationOutput) {
-        try (var client = HttpClient.newHttpClient()) {
-            var url = STR."\{ConfigHolder.getContext().getBaseUrl()}/tokens/signup/scanner";
+        try {
+            var client = HttpClient.newHttpClient();
             var body = Utils.classToJson(registrationOutput);
 
             var request = HttpRequest.newBuilder()
-                    .uri(URI.create(url))
+                    .uri(URI.create(ConfigHolder.getContext().getRegistrationUrl()))
                     .POST(HttpRequest.BodyPublishers.ofString(body))
                     .header("Content-type", CONTENT_TYPE)
                     .build();
@@ -63,6 +62,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             Utils.displaySimpleErrorAlertDialog(error.getMessage(), null);
             return false;
         } catch (Exception e) {
+            if (e instanceof InterruptedException) Thread.currentThread().interrupt();
             LOGGER.error(e.getMessage(), e);
             return false;
         }

@@ -58,6 +58,7 @@ public class CDCScannerApplication extends Application {
             this.config = ConfigHolder.getContext();
             isAppRegistered = registrationService.isRegistered();
             logger.info("Application init run successfully");
+            Thread.sleep(1000);
         } catch (InterruptedException | IOException e) {
             if (e instanceof InterruptedException) Thread.currentThread().interrupt();
             catchStarterError(e, false);

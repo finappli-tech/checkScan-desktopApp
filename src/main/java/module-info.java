@@ -17,12 +17,16 @@ module sn.finappli.cdcscanner {
     requires org.yaml.snakeyaml;
     requires batik.transcoder;
     requires javafx.swing;
+    requires bcrypt;
 
     opens sn.finappli.cdcscanner to javafx.fxml;
     exports sn.finappli.cdcscanner;
     exports sn.finappli.cdcscanner.controller;
     exports sn.finappli.cdcscanner.service;
+    exports sn.finappli.cdcscanner.service.impl;
     exports sn.finappli.cdcscanner.model.input;
     exports sn.finappli.cdcscanner.model.output;
+    exports sn.finappli.cdcscanner.utility;
+    exports sn.finappli.cdcscanner.security;
     opens sn.finappli.cdcscanner.controller to javafx.fxml;
 }

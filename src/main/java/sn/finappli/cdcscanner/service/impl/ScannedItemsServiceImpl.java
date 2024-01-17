@@ -20,14 +20,14 @@ import static sn.finappli.cdcscanner.utility.Utils.jsonToClass;
 public class ScannedItemsServiceImpl implements ItemsService {
 
     private static final Logger logger = LoggerFactory.getLogger(ScannedItemsServiceImpl.class);
-    private static final String BASE_URL = STR."\{ConfigHolder.getContext().getBaseUrl()}/check-scan";
 
     @Override
     public ScanInputPaged listScannedItems(int page) {
-        try (HttpClient client = HttpClient.newHttpClient()) {
+        try  {
+            HttpClient client = HttpClient.newHttpClient();
             val date = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-            val uri = STR."\{BASE_URL}?pageNumber=\{page}&pageSize=\{ConfigHolder.getContext().getPageItems()}";
-            val body = STR."GET\{uri}\{date}";
+            val uri = "%s?pageNumber=%d&pageSize=%d".formatted(ConfigHolder.getContext().getListScannedItemsUrl(), page, ConfigHolder.getContext().getPageItems());
+            val body = "GET%s%s".formatted(uri, date);
             var request = HttpUtils.appendHeaderAndDigest(uri, body, date)
                     .uri(URI.create(uri))
                     .GET()

@@ -1,2 +1,25 @@
 Manifest-Version: 1.0
+Main-Class: sn.finappli.cdcscanner.CDCScannerApplication
+Class-Path: logback-classic-1.4.14.jar lombok-1.18.30.jar jna-5.14.0.jar
+  batik-script-1.17.jar jackson-module-parameter-names-2.16.1.jar bytes-
+ 1.5.0.jar jboss-logging-3.1.4.GA.jar javafx-fxml-17.0.6-win.jar batik-g
+ vt-1.17.jar batik-anim-1.17.jar commons-io-2.15.1.jar batik-util-1.17.j
+ ar xml-apis-ext-1.3.04.jar tess4j-5.10.0.jar pdfbox-tools-3.0.1.jar jac
+ kson-annotations-2.16.1.jar javafx-swing-21.0.1-win.jar junit-jupiter-5
+ .10.1.jar batik-i18n-1.17.jar pdfbox-3.0.1.jar batik-bridge-1.17.jar ba
+ tik-ext-1.17.jar annotations-24.0.0.jar jackson-databind-2.16.1.jar bat
+ ik-xml-1.17.jar jackson-core-2.16.1.jar batik-parser-1.17.jar pdfbox-de
+ bugger-3.0.1.jar xmlgraphics-commons-2.9.jar javafx-swing-21.0.1.jar ja
+ vafx-controls-17.0.6-win.jar slf4j-api-2.0.0.jar xml-apis-1.4.01.jar ja
+ i-imageio-core-1.4.0.jar pdfbox-io-3.0.1.jar batik-svg-dom-1.17.jar jav
+ afx-graphics-17.0.6.jar jackson-datatype-jsr310-2.16.1.jar batik-svggen
+ -1.17.jar fontbox-3.0.1.jar jboss-vfs-3.2.17.Final.jar batik-transcoder
+ -1.17.jar batik-shared-resources-1.17.jar bcrypt-0.10.2.jar batik-dom-1
+ .17.jar logback-core-1.4.14.jar javafx-controls-17.0.6.jar batik-css-1.
+ 17.jar picocli-4.7.5.jar javafx-base-17.0.6.jar jbig2-imageio-3.0.4.jar
+  javafx-fxml-17.0.6.jar batik-constants-1.17.jar batik-awt-util-1.17.ja
+ r controlsfx-11.1.2.jar javafx-base-17.0.6-win.jar snakeyaml-2.2.jar le
+ pt4j-1.19.0.jar commons-lang3-3.1.jar javafx-graphics-17.0.6-win.jar ap
+ iguardian-api-1.1.2.jar junit-jupiter-params-5.10.1.jar commons-logging
+ -1.2.jar
 

@@ -65,7 +65,7 @@ public class PreloaderController extends Preloader {
         stage.setAlwaysOnTop(true);
         stage.setScene(createPreloaderScene());
         stage.setResizable(false);
-        stage.setOnCloseRequest(_ -> System.exit(0));
+        stage.setOnCloseRequest(x -> System.exit(0));
         stage.show();
     }
 

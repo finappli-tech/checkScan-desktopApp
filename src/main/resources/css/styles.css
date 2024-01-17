@@ -7,53 +7,67 @@ root * {
 }
 
 .anchorPane {
-    -fx-background-color: #030303 !important;
+    -fx-background-color: #030303;
+}
+
+.anchorPaneBrown {
+    -fx-background-color: #282828;
 }
 
 .text-base {
     -fx-font-size: 14;
 }
 
+.text-md {
+    -fx-font-size: 17;
+}
+
+.text-lg {
+    -fx-font-size: 24;
+}
+
 .text-xl {
-    -fx-font-size: 28 !important;
+    -fx-font-size: 28;
 }
 
 .text-2xl {
-    -fx-font-size: 34 !important;
+    -fx-font-size: 34;
 }
 
 .text-3xl {
     -fx-font-size: 40;
 }
 
+.text-4xl {
+    -fx-font-size: 45;
+}
+
+.text-5xl {
+    -fx-font-size: 50;
+}
+
 .text-center {
     -fx-alignment: center;
-    -fx-text-alignment: center;
 }
 
 .text-left {
     -fx-alignment: center-left;
-    -fx-text-alignment: left;
 }
 
 .text-right {
     -fx-alignment: center-right;
-    -fx-text-alignment: right;
 }
 
 .text-white {
     -fx-text-fill: white !important;
 }
 
-.footer-text {
-    -fx-text-alignment: right;
-    -fx-alignment: bottom-right;
-    -fx-label-padding: 0 10 10 0;
+.text-italic {
+    -fx-font-style: italic;
 }
 
-.overlay {
-    -fx-background-color: #000000;
-    /*-fx-opacity: .4;*/
+.text-underline {
+    -fx-underline: true;
 }
 
 /*######################### TABLE ##########################*/

@@ -1,8 +1,15 @@
 package sn.finappli.cdcscanner.service;
 
+import sn.finappli.cdcscanner.model.input.LoginRequestInput;
+import sn.finappli.cdcscanner.model.input.LoginRequestPhoneInput;
+
+import java.util.List;
+
 public interface AuthenticationService {
 
-    void requestAuthentication(String telephone);
+    List<LoginRequestPhoneInput> findUserForApp();
 
-    boolean authenticate(String code, String uuid);
+    LoginRequestInput requestAuthentication(String telephone);
+
+    boolean authenticate(String uuid);
 }

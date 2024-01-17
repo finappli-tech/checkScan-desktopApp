@@ -31,8 +31,6 @@ public class TesseractOCRReaderImpl implements OCRReader {
 
         try {
             var result = tesseract.doOCR(file);
-
-            LOGGER.info(STR."Extracted Text: \n\{result}");
             return extractCheckNumber(result);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

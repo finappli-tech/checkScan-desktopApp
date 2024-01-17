@@ -13,3 +13,11 @@
     -fx-font-size: 14px;
     -fx-font-weight: 600;
 }
+
+.georgia-font {
+    -fx-font-family: Georgia, Calibri, "Roboto Light", Serif;
+}
+
+.dropdown {
+
+}

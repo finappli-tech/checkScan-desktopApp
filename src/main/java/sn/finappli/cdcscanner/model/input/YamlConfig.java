@@ -15,5 +15,15 @@ public final class YamlConfig {
 
     private String baseUrl;
 
+    private String checkAppRegistrationUrl;
+    private String registrationUrl;
+    private int loginTokenCountdown;
+
+    private String loginUrl;
+    private String requestLoginUsersUrl;
+    private String requestLoginUrl;
+
+    private String listScannedItemsUrl;
+
     private int pageItems;
 }

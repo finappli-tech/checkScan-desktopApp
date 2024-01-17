@@ -1,8 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import java.lang.String?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="600.0" prefWidth="800.0"
+            xmlns="http://javafx.com/javafx/11.0.14-internal"
+            fx:controller="sn.finappli.cdcscanner.controller.AuthenticationController">
+    <AnchorPane prefHeight="600.0" prefWidth="400.0" styleClass="anchorPaneBrown">
+        <ImageView fitHeight="170.0" fitWidth="170.0" layoutX="115.0" layoutY="150.0" pickOnBounds="true">
+            <Image url="@../../../images/scan-cheque-img.png"/>
+        </ImageView>
+        <Label layoutX="11.0" layoutY="377.0" prefHeight="40.0" prefWidth="378.0" text="Scan chèque">
+            <styleClass>
+                <String fx:value="text-2xl"/>
+                <String fx:value="text-white"/>
+                <String fx:value="text-center"/>
+                <String fx:value="georgia-font"/>
+            </styleClass>
+        </Label>
+        <ImageView cache="true" fitHeight="67.0" fitWidth="93.0" layoutY="6.0" pickOnBounds="true" smooth="false">
+            <Image url="@../../../images/logo.png"/>
+        </ImageView>
+        <Label layoutX="2.0" layoutY="565.0" prefHeight="35.0" prefWidth="400.0" text="Finappli SAS ©">
+            <styleClass>
+                <String fx:value="text-white"/>
+                <String fx:value="text-right"/>
+                <String fx:value="text-base"/>
+                <String fx:value="text-italic"/>
+                <String fx:value="text-underline"/>
+            </styleClass>
+            <padding>
+                <Insets right="20.0"/>
+            </padding>
+        </Label>
+    </AnchorPane>
+    <AnchorPane layoutX="400.0" prefHeight="600.0" prefWidth="400.0" styleClass="anchorPane">
+        <Label layoutX="11.0" layoutY="60.0" prefHeight="40.0" prefWidth="378.0" text="Authentification">
+            <styleClass>
+                <String fx:value="text-4xl"/>
+                <String fx:value="text-center"/>
+                <String fx:value="text-white"/>
+                <String fx:value="georgia-font"/>
+            </styleClass>
+        </Label>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #030303;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sn.finappli.cdcscanner.controller.AuthenticationController">
-    <Button fx:id="loginButton" layoutX="519.0" layoutY="490.0" mnemonicParsing="false" onAction="#authenticate" prefHeight="33.0" prefWidth="237.0" text="Se connecter" />
+        <Label layoutX="35.0" layoutY="202.0" prefHeight="25.0" prefWidth="330.0" styleClass="text-white"
+               text="Sélection un numéro de téléphone"/>
+        <ChoiceBox fx:id="choiceBox" layoutX="35.0" layoutY="227.0" prefHeight="35.0" prefWidth="330.0"
+                   styleClass="dropdown"/>
+
+        <Label layoutX="35.0" layoutY="281.0" prefHeight="25.0" prefWidth="330.0" styleClass="text-white" text="Code"/>
+        <TextField fx:id="token" disable="true" layoutX="35.0" layoutY="306.0" prefHeight="35.0" prefWidth="330.0"
+                   promptText="Saisir le code reçu" styleClass="field"/>
+
+        <Button fx:id="button" defaultButton="true" disable="true" layoutX="35.0" layoutY="376.0"
+                mnemonicParsing="false" onAction="#performAuthentication" prefHeight="38.0" prefWidth="330.0"
+                text="Envoyer le code">
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+        </Button>
+        <Label fx:id="tokenAttempt" layoutX="248.0" layoutY="285.0" prefHeight="17.0" prefWidth="117.0" visible="false">
+            <styleClass>
+                <String fx:value="text-right"/>
+                <String fx:value="text-white"/>
+                <String fx:value="text-base"/>
+            </styleClass>
+        </Label>
+        <Label fx:id="countdown" layoutX="35.0" layoutY="341.0" prefHeight="15.0" prefWidth="330.0" visible="false">
+            <styleClass>
+                <String fx:value="text-right"/>
+                <String fx:value="text-white"/>
+                <String fx:value="text-base"/>
+            </styleClass>
+        </Label>
+        <ProgressIndicator fx:id="loader" layoutX="174.0" layoutY="439.0"/>
+    </AnchorPane>
 </AnchorPane>

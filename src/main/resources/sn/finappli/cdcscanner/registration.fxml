@@ -1,44 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sn.finappli.cdcscanner.controller.RegistrationController">
-    <AnchorPane prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #282828;">
+    <AnchorPane prefHeight="600.0" prefWidth="400.0" styleClass="anchorPaneBrown">
         <ImageView fitHeight="170.0" fitWidth="170.0" layoutX="115.0" layoutY="150.0" pickOnBounds="true">
             <Image url="@../../../images/scan-cheque-img.png" />
         </ImageView>
-        <Label alignment="CENTER" layoutX="35.0" layoutY="348.0" prefHeight="17.0" prefWidth="330.0" text="Scan chèque" textFill="WHITE">
+        <Label layoutX="11.0" layoutY="377.0" prefHeight="40.0" prefWidth="378.0" text="Scan chèque">
             <styleClass>
-                <String fx:value="bigTitle" />
-                <String fx:value="scan-cheque" />
+                <String fx:value="text-2xl" />
+                <String fx:value="text-white" />
+                <String fx:value="text-center" />
+                <String fx:value="georgia-font" />
             </styleClass>
         </Label>
-        <ImageView cache="true" fitHeight="67.0" fitWidth="93.0" pickOnBounds="true" smooth="false">
+        <ImageView cache="true" fitHeight="67.0" fitWidth="93.0" layoutY="6.0" pickOnBounds="true" smooth="false">
             <Image url="@../../../images/logo.png" />
         </ImageView>
-      <Label layoutX="55.0" layoutY="565.0" prefHeight="35.0" prefWidth="400.0" styleClass="footer-text" text="Finappli SAS ©" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="565.0" />
+        <Label layoutX="2.0" layoutY="565.0" prefHeight="35.0" prefWidth="400.0" text="Finappli SAS ©">
+            <styleClass>
+                <String fx:value="text-white" />
+                <String fx:value="text-right" />
+                <String fx:value="text-base" />
+                <String fx:value="text-italic" />
+                <String fx:value="text-underline" />
+            </styleClass>
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+        </Label>
     </AnchorPane>
-    <AnchorPane layoutX="400.0" prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #030303;">
-        <Label layoutX="35.0" layoutY="64.0" prefHeight="37.0" prefWidth="330.0" styleClass="bigTitle" text="Enregistrement" textFill="#fffefe">
+    <AnchorPane layoutX="400.0" prefHeight="600.0" prefWidth="400.0" styleClass="anchorPane">
+        <Label layoutX="11.0" layoutY="60.0" prefHeight="40.0" prefWidth="378.0" text="Enregistrement">
+            <styleClass>
+                <String fx:value="text-4xl" />
+                <String fx:value="text-center" />
+                <String fx:value="text-white" />
+                <String fx:value="georgia-font" />
+            </styleClass>
         </Label>
-        <Label layoutX="35.0" layoutY="202.0" prefHeight="25.0" prefWidth="330.0" text="Identifiant" textAlignment="CENTER" textFill="WHITE">
-        </Label>
+        <Label layoutX="35.0" layoutY="202.0" prefHeight="25.0" prefWidth="330.0" styleClass="text-white" text="Identifiant" />
         <TextField fx:id="token" layoutX="35.0" layoutY="313.0" prefHeight="35.0" prefWidth="330.0" styleClass="field" />
-        <Label layoutX="35.0" layoutY="288.0" prefHeight="25.0" prefWidth="330.0" text="Token Client" textAlignment="CENTER" textFill="WHITE">
-        </Label>
+        <Label layoutX="35.0" layoutY="288.0" prefHeight="25.0" prefWidth="330.0" styleClass="text-white" text="Token Client" />
         <TextField fx:id="appId" disable="true" editable="false" layoutX="35.0" layoutY="227.0" prefHeight="35.0" prefWidth="330.0" styleClass="field">
-            <cursor>
-                <Cursor fx:constant="DEFAULT" />
-            </cursor>
         </TextField>
-        <Button fx:id="saveButton" alignment="CENTER" defaultButton="true" disable="true" layoutX="35.0" layoutY="407.0" mnemonicParsing="false" onAction="#executeAppRegistration" prefHeight="38.0" prefWidth="330.0" stylesheets="@../../../css/button.css" text="Enregistrer">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Button>
+        <Button fx:id="saveButton" defaultButton="true" disable="true" layoutX="35.0" layoutY="405.0" mnemonicParsing="false" onAction="#executeAppRegistration" prefHeight="38.0" prefWidth="330.0" text="Enregistrer">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
         <ProgressIndicator fx:id="loader" layoutX="187.0" layoutY="492.0" />
     </AnchorPane>
 </AnchorPane>

@@ -3,6 +3,7 @@ package sn.finappli.cdcscanner.utility;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import javafx.scene.control.Alert;
@@ -15,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sn.finappli.cdcscanner.CDCScannerApplication;
 import sn.finappli.cdcscanner.model.input.APIError;
 
 import java.io.IOException;
@@ -25,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
@@ -35,6 +36,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public final class Utils {
 
+    public static final String CONTENT_TYPE_HEADER = "Content-type";
     public static final String CONTENT_TYPE = "application/json";
     private static final Logger LOGGER = LoggerFactory.getLogger(Utils.class);
     private static final String DEFAULT_ERROR_MESSAGE = "Une erreur s'est produite. Veuillez réessayer SVP!";
@@ -66,6 +68,11 @@ public final class Utils {
 
     public static <T> T jsonToClass(Class<T> clazzType, String json) throws JsonProcessingException {
         return JSON_MAPPER.readValue(json, clazzType);
+    }
+
+    public static <T> List<T> jsonToList(Class<T> elementType, String json) throws JsonProcessingException {
+        CollectionType listType = JSON_MAPPER.getTypeFactory().constructCollectionType(List.class, elementType);
+        return JSON_MAPPER.readValue(json, listType);
     }
 
     public static @NotNull APIError buildError(int status, String json) {
@@ -113,7 +120,7 @@ public final class Utils {
     }
 
     public static String getDefaultCss() {
-        return Objects.requireNonNull(CDCScannerApplication.class.getResource("/css/styles.css")).toExternalForm();
+        return Objects.requireNonNull(Utils.class.getResource("/css/styles.css")).toExternalForm();
     }
 
     @Contract("_ -> new")
@@ -139,11 +146,10 @@ public final class Utils {
     }
 
     @Contract("_ -> new")
-    public static @NotNull String strToHex(String str) {
-        if (isBlank(str)) throw new NullPointerException("No value provided");
-        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
-        var bigInt = new BigInteger(1, bytes);
-        return String.format(STR."%0\{bytes.length << 1}x", bigInt);
+    public static @NotNull String hexToString(String hex) {
+        if (isBlank(hex)) throw new NullPointerException("No value provided");
+        byte[] bytes = new BigInteger(hex, 16).toByteArray();
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 
 }
