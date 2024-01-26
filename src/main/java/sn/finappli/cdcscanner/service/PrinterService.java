@@ -1,6 +1,10 @@
 package sn.finappli.cdcscanner.service;
 
+import javafx.collections.ObservableList;
+
+import javax.print.PrintService;
+
 public interface PrinterService {
 
-    void listAllConnectedPrinters() throws InterruptedException;
+    ObservableList<PrintService> listPrinters();
 }

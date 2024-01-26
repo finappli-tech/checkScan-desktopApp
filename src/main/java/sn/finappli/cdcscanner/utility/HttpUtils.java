@@ -1,5 +1,6 @@
 package sn.finappli.cdcscanner.utility;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,11 +32,13 @@ public final class HttpUtils {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
 
-    @Contract("_, _, _ -> new")
-    public static HttpRequest.@Nullable Builder appendHeaderAndDigest(String uri, String body, String date) {
+    @Contract("_, _, _, _ -> new")
+    public static HttpRequest.@Nullable Builder appendHeaderAndDigest(String method, String uri, @Nullable String body, String date) {
         try {
+            var content = method.concat(StringUtils.trimToEmpty(body)).concat(uri).concat(date);
+
             var sec = SecurityContextHolder.getContext();
-            var digest = calculateHmacSha256(body, sec.secret(), sec.encoder());
+            var digest = calculateHmacSha256(content, sec.secret(), sec.encoder());
             var cookieManager = (CookieManager) CookieHandler.getDefault();
 
             cookieManager.getCookieStore().add(URI.create(uri), getTokenCookie());

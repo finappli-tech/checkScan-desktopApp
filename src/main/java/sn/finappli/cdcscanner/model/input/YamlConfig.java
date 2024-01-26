@@ -23,7 +23,7 @@ public final class YamlConfig {
     private String requestLoginUsersUrl;
     private String requestLoginUrl;
 
-    private String listScannedItemsUrl;
+    private String scannedItemsUrl;
 
     private int pageItems;
 }

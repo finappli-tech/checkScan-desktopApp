@@ -3,6 +3,7 @@ package sn.finappli.cdcscanner.controller;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -42,7 +43,6 @@ import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static sn.finappli.cdcscanner.utility.Utils.getDefaultCss;
 
 @Getter
@@ -59,7 +59,7 @@ public class AuthenticationController implements Initializable {
     private final AuthenticationService authenticationService = new AuthenticationServiceImpl();
 
     private final AtomicInteger step = new AtomicInteger(0);
-    private int attempt;
+    private int attempt = 0;
     private LoginRequestInput request;
     private List<LoginRequestPhoneInput> items;
     private int remaining;
@@ -80,9 +80,7 @@ public class AuthenticationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        attempt = 0;
         configureChoiceBox();
-        loader.setVisible(false);
         token.textProperty().addListener((e, f, newValue) -> {
             var value = newValue.replaceAll("\\D", "");
             token.setText(value.length() <= 6 ? value : value.substring(0, 6));
@@ -92,8 +90,11 @@ public class AuthenticationController implements Initializable {
 
     @FXML
     void performAuthentication(ActionEvent event) {
-        if (this.step.get() == 0) this.requestAuthentication();
-        else this.doAuthenticate(event);
+        if (step.get() == 0) {
+            choiceBox.setDisable(true);
+            button.setDisable(true);
+            requestAuthentication();
+        } else doAuthenticate(event);
     }
 
     private void requestAuthentication() {
@@ -110,27 +111,29 @@ public class AuthenticationController implements Initializable {
         });
         task.setOnSucceeded(event -> {
             request = (LoginRequestInput) event.getSource().getValue();
-            if (isNotBlank(request.error()))
-                Utils.displaySimpleErrorAlertDialog(request.error(), "Tentative de connexion");
-            else Utils.displaySimpleSuccessfulAlertDialog("Connexion", null, SUCCESS_LOGIN_ATTEMPT_MESSAGE);
-            token.setDisable(isBlank(request.uuid()) || isBlank(request.hashedCode()));
-            launchTimeLine();
-        });
-        task.setOnFailed(e -> {
-            choiceBox.setDisable(false);
-            button.setDisable(false);
-            loader.setVisible(false);
+            Platform.runLater(this::onRequestAuthSuccess);
         });
         new Thread(task).start();
+    }
+
+    private void onRequestAuthSuccess() {
+        var hasError = isBlank(request.uuid()) || isBlank(request.hashedCode());
+        if (hasError) Utils.displaySimpleErrorAlertDialog(request.error(), "Tentative de connexion");
+        else {
+            Utils.displaySimpleSuccessfulAlertDialog("Connexion", null, SUCCESS_LOGIN_ATTEMPT_MESSAGE);
+            launchTimeLine();
+            token.requestFocus();
+        }
+        token.setDisable(hasError);
+        choiceBox.setDisable(false);
+        loader.setVisible(false);
+        button.setDisable(false);
     }
 
     private void launchTimeLine() {
         remaining = Math.max(ConfigHolder.getContext().getLoginTokenCountdown(), 5 * 60);
         attempt = 0;
         step.set(1);
-        choiceBox.setDisable(false);
-        button.setDisable(false);
-        loader.setVisible(false);
         tokenAttempt.setText("Tentative %d/3".formatted(attempt));
         tokenAttempt.setVisible(true);
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), this::updateCountdown));
@@ -168,8 +171,9 @@ public class AuthenticationController implements Initializable {
         if (result.verified) {
             if (authenticationService.authenticate(request.uuid())) goToHomePage((Node) event.getSource());
         } else {
-            tokenAttempt.setText("Tentative %d/3".formatted(step.incrementAndGet()));
-            if (step.get() > 3) stopCountdown(false);
+            attempt++;
+            tokenAttempt.setText("Tentative %d/3".formatted(attempt));
+            if (attempt >= 3) stopCountdown(false);
             else Utils.displaySimpleErrorAlertDialog("Ce token est invalide.", "Vérification");
         }
     }
@@ -206,7 +210,21 @@ public class AuthenticationController implements Initializable {
                 return null;
             }
         });
-        choiceBox.getSelectionModel().selectedItemProperty().addListener((e, f, selected) -> button.setDisable(selected == null));
+        choiceBox.getSelectionModel().selectedItemProperty().addListener((e, f, selected) -> {
+            button.setDisable(selected == null);
+            if (selected != null && step.get() == 1) {
+                token.clear();
+                token.setDisable(true);
+                step.set(0);
+                attempt = 0;
+                remaining = Math.max(ConfigHolder.getContext().getLoginTokenCountdown(), 5 * 60);
+                timeline.stop();
+                countdown.setVisible(false);
+                countdown.setText("");
+                tokenAttempt.setVisible(false);
+                tokenAttempt.setText("");
+            }
+        });
     }
 
 }

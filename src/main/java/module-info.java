@@ -18,6 +18,7 @@ module sn.finappli.cdcscanner {
     requires batik.transcoder;
     requires javafx.swing;
     requires bcrypt;
+    requires com.sun.jna;
 
     opens sn.finappli.cdcscanner to javafx.fxml;
     exports sn.finappli.cdcscanner;

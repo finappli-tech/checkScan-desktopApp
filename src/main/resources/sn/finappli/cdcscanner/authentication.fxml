@@ -10,11 +10,12 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 <?import java.lang.String?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="600.0" prefWidth="800.0"
-            xmlns="http://javafx.com/javafx/11.0.14-internal"
+            styleClass="anchorPaneBGFull" xmlns="http://javafx.com/javafx/11.0.14-internal"
             fx:controller="sn.finappli.cdcscanner.controller.AuthenticationController">
-    <AnchorPane prefHeight="600.0" prefWidth="400.0" styleClass="anchorPaneBrown">
+    <AnchorPane prefHeight="600.0" prefWidth="400.0" styleClass="bg-transparent">
         <ImageView fitHeight="170.0" fitWidth="170.0" layoutX="115.0" layoutY="150.0" pickOnBounds="true">
             <Image url="@../../../images/scan-cheque-img.png"/>
         </ImageView>
@@ -23,7 +24,6 @@
                 <String fx:value="text-2xl"/>
                 <String fx:value="text-white"/>
                 <String fx:value="text-center"/>
-                <String fx:value="georgia-font"/>
             </styleClass>
         </Label>
         <ImageView cache="true" fitHeight="67.0" fitWidth="93.0" layoutY="6.0" pickOnBounds="true" smooth="false">
@@ -42,26 +42,25 @@
             </padding>
         </Label>
     </AnchorPane>
-    <AnchorPane layoutX="400.0" prefHeight="600.0" prefWidth="400.0" styleClass="anchorPane">
+    <AnchorPane layoutX="400.0" prefHeight="600.0" prefWidth="400.0" styleClass="bg-transparent">
         <Label layoutX="11.0" layoutY="60.0" prefHeight="40.0" prefWidth="378.0" text="Authentification">
             <styleClass>
-                <String fx:value="text-4xl"/>
+                <String fx:value="text-3xl"/>
                 <String fx:value="text-center"/>
                 <String fx:value="text-white"/>
-                <String fx:value="georgia-font"/>
             </styleClass>
         </Label>
 
         <Label layoutX="35.0" layoutY="202.0" prefHeight="25.0" prefWidth="330.0" styleClass="text-white"
                text="Sélection un numéro de téléphone"/>
         <ChoiceBox fx:id="choiceBox" layoutX="35.0" layoutY="227.0" prefHeight="35.0" prefWidth="330.0"
-                   styleClass="dropdown"/>
+                   styleClass="authBox"/>
 
         <Label layoutX="35.0" layoutY="281.0" prefHeight="25.0" prefWidth="330.0" styleClass="text-white" text="Code"/>
         <TextField fx:id="token" disable="true" layoutX="35.0" layoutY="306.0" prefHeight="35.0" prefWidth="330.0"
                    promptText="Saisir le code reçu" styleClass="field"/>
 
-        <Button fx:id="button" defaultButton="true" disable="true" layoutX="35.0" layoutY="376.0"
+        <Button fx:id="button" defaultButton="true" disable="true" layoutX="35.0" layoutY="385.0"
                 mnemonicParsing="false" onAction="#performAuthentication" prefHeight="38.0" prefWidth="330.0"
                 text="Envoyer le code">
             <cursor>
@@ -72,16 +71,17 @@
             <styleClass>
                 <String fx:value="text-right"/>
                 <String fx:value="text-white"/>
-                <String fx:value="text-base"/>
+                <String fx:value="text-sm"/>
             </styleClass>
         </Label>
         <Label fx:id="countdown" layoutX="35.0" layoutY="341.0" prefHeight="15.0" prefWidth="330.0" visible="false">
             <styleClass>
                 <String fx:value="text-right"/>
                 <String fx:value="text-white"/>
-                <String fx:value="text-base"/>
+                <String fx:value="text-sm"/>
             </styleClass>
         </Label>
-        <ProgressIndicator fx:id="loader" layoutX="174.0" layoutY="439.0"/>
+        <ProgressIndicator fx:id="loader" layoutX="175.0" layoutY="500.0" styleClass="white-loader" visible="false"/>
     </AnchorPane>
+    <Line endX="-100.0" endY="604.5" layoutX="500.0" startX="-100.0" stroke="WHITE" strokeWidth="2.0"/>
 </AnchorPane>

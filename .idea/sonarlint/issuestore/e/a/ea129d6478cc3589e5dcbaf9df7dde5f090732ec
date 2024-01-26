@@ -1,5 +1,15 @@
 
-r	java:S1176"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±şØúÿÿÿÿ8İ¾†ØĞ1
-G	java:S1061"+Replace this use of System.out by a logger.(Ú·Ş¢8ç¾†ØĞ1
-Z
-java:S1144:"8Remove this unused private "getCMCFromOcrReader" method.(·êÌèúÿÿÿÿ8ê¾†ØĞ1
+B
+java:S2629Á"$Invoke method(s) only conditionally.(ØÃËú8™¨×—Ô1
+B
+java:S2629Ç"$Invoke method(s) only conditionally.(ØÃËú8š¨×—Ô1
+B
+java:S2629Î"$Invoke method(s) only conditionally.(ØÃËú8š¨×—Ô1
+B
+java:S2629Õ"$Invoke method(s) only conditionally.(ØÃËú8š¨×—Ô1
+B
+java:S2629Ü"$Invoke method(s) only conditionally.(ØÃËú8š¨×—Ô1
+B
+java:S2629â"$Invoke method(s) only conditionally.(ØÃËú8š¨×—Ô1
+[
+java:S1144˜"8Remove this unused private "getCMCFromOcrReader" method.(·êÌèúÿÿÿÿ8Ş¨×—Ô1

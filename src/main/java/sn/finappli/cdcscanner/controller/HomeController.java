@@ -1,5 +1,6 @@
 package sn.finappli.cdcscanner.controller;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -28,8 +29,8 @@ import sn.finappli.cdcscanner.CDCScannerApplication;
 import sn.finappli.cdcscanner.model.input.ScanInputModel;
 import sn.finappli.cdcscanner.model.input.ScanInputPaged;
 import sn.finappli.cdcscanner.security.SecurityContextHolder;
-import sn.finappli.cdcscanner.service.ItemsService;
-import sn.finappli.cdcscanner.service.impl.ScannedItemsServiceImpl;
+import sn.finappli.cdcscanner.service.ScanService;
+import sn.finappli.cdcscanner.service.impl.ScannedScanServiceImpl;
 import sn.finappli.cdcscanner.utility.SystemUtils;
 import sn.finappli.cdcscanner.utility.Utils;
 
@@ -46,7 +47,7 @@ import static sn.finappli.cdcscanner.utility.Utils.getDefaultCss;
 public class HomeController implements Initializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
-    private final ItemsService itemsService = new ScannedItemsServiceImpl();
+    private final ScanService scanService = new ScannedScanServiceImpl();
 
     @FXML
     private TableView<ScanInputModel> historyTable;
@@ -86,10 +87,7 @@ public class HomeController implements Initializable {
         pagination.currentPageIndexProperty().addListener((x, y, z) -> refreshTable());
 
         historyTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        historyTable.getSelectionModel().selectedItemProperty().addListener((x, y, newSelection) -> {
-//            if (Objects.isNull(newSelection)) return;
-        });
-        refreshButton.fire();
+        Platform.runLater(this::refreshTable);
     }
 
     @FXML
@@ -100,7 +98,7 @@ public class HomeController implements Initializable {
             protected ScanInputPaged call() {
                 SystemUtils.loadAppConfig();
                 SecurityContextHolder.setContext(sec);
-                return itemsService.listScannedItems(pagination.getCurrentPageIndex());
+                return scanService.listScannedItems(pagination.getCurrentPageIndex());
             }
         };
         task.setOnRunning(e -> {

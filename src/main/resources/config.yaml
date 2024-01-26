@@ -3,7 +3,7 @@ baseUrl: http://localhost:8090/api
 checkAppRegistrationUrl: ${baseUrl}/tokens/signup/check-scanner
 registrationUrl: ${baseUrl}/tokens/signup/scanner
 
-listScannedItemsUrl: ${baseUrl}/check-scan
+scannedItemsUrl: ${baseUrl}/check-scan
 
 requestLoginUrl: ${baseUrl}/tokens/signin/scanner/request
 requestLoginUsersUrl: ${baseUrl}/tokens/signin/scanner/users

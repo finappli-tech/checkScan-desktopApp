@@ -1,5 +1,6 @@
 package sn.finappli.cdcscanner.service.impl;
 
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import sn.finappli.cdcscanner.utility.ConfigHolder;
 import sn.finappli.cdcscanner.utility.SystemUtils;
 import sn.finappli.cdcscanner.utility.Utils;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
@@ -20,6 +22,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -40,6 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             HttpClient client = HttpClient.newHttpClient();
             var appId = SystemUtils.getAppIdentifier();
             var request = HttpRequest.newBuilder()
+                    .version(HttpClient.Version.HTTP_2)
                     .uri(URI.create(ConfigHolder.getContext().getRequestLoginUsersUrl()))
                     .GET()
                     .header(CONTENT_TYPE_HEADER, CONTENT_TYPE)
@@ -51,14 +55,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             if (response.statusCode() != 200) {
                 var error = buildError(response.statusCode(), response.body());
                 LOGGER.error("FETCHING LOGIN REQUEST USERS ERROR");
-                LOGGER.error("\tAppId: {}", appId);
-                LOGGER.error("\tError: {}", error);
-                return null;
+                LOGGER.error("\tAppId: {}, error: {}", appId, error);
+                return Collections.emptyList();
             } else return jsonToList(LoginRequestPhoneInput.class, response.body());
         } catch (Exception e) {
             if (e instanceof InterruptedException) Thread.currentThread().interrupt();
             LOGGER.error(e.getMessage(), e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -68,6 +71,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             HttpClient client = HttpClient.newHttpClient();
             var body = classToJson(new AuthenticationRequestOutput(uuid));
             var request = HttpRequest.newBuilder()
+                    .version(HttpClient.Version.HTTP_2)
                     .uri(URI.create(ConfigHolder.getContext().getRequestLoginUrl()))
                     .POST(HttpRequest.BodyPublishers.ofString(body))
                     .header("Content-type", CONTENT_TYPE)
@@ -80,10 +84,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 LOGGER.error("AUTHENTICATION ERROR");
                 LOGGER.error("\tError: {}", error);
                 return LoginRequestInput.builder().error(error.getMessage()).build();
-            } else {
-                return storeUsersLoginInformation(response.headers());
-            }
-        } catch (Exception e) {
+            } else return storeUsersLoginInformation(response.headers());
+        } catch (IOException | InterruptedException e) {
             if (e instanceof InterruptedException) Thread.currentThread().interrupt();
             LOGGER.error(e.getMessage(), e);
             return LoginRequestInput.builder().error(e.getMessage()).build();
@@ -95,6 +97,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         try {
             HttpClient client = HttpClient.newHttpClient();
             var request = HttpRequest.newBuilder(URI.create(ConfigHolder.getContext().getLoginUrl()))
+                    .version(HttpClient.Version.HTTP_2)
                     .header("Content-type", Utils.CONTENT_TYPE)
                     .header("X-Digest", uuid)
                     .POST(HttpRequest.BodyPublishers.noBody())
@@ -104,8 +107,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             if (response.statusCode() != 200) {
                 var error = buildError(response.statusCode(), response.body());
                 LOGGER.error("AUTHENTICATION ERROR");
-                LOGGER.error("\tAppId: {}", hexToString(uuid));
-                LOGGER.error("\tError: {}", error);
+                val id = hexToString(uuid);
+                LOGGER.error("\tAppId: {} -> Error: {}", id, error);
                 return false;
             } else {
                 storeToken(response);

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sn.finappli.cdcscanner.controller.PreloaderController;
 import sn.finappli.cdcscanner.model.input.YamlConfig;
+import sn.finappli.cdcscanner.security.SecurityContext;
 import sn.finappli.cdcscanner.security.SecurityContextHolder;
 import sn.finappli.cdcscanner.service.RegistrationService;
 import sn.finappli.cdcscanner.service.impl.RegistrationServiceImpl;
@@ -17,6 +18,7 @@ import sn.finappli.cdcscanner.utility.ConfigHolder;
 import sn.finappli.cdcscanner.utility.SystemUtils;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static sn.finappli.cdcscanner.utility.Utils.catchStarterError;
@@ -26,9 +28,11 @@ public class CDCScannerApplication extends Application {
 
     private static final Logger logger = LoggerFactory.getLogger(CDCScannerApplication.class);
     private final RegistrationService registrationService = new RegistrationServiceImpl();
+
     private Stage stage;
     private YamlConfig config;
-    private boolean isAppRegistered;
+    private boolean isAppRegistered = false;
+    private Exception initException = null;
 
     public static void main(String[] args) {
         System.setProperty("javafx.preloader", PreloaderController.class.getCanonicalName());
@@ -37,6 +41,7 @@ public class CDCScannerApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        if (Objects.nonNull(initException)) catchStarterError(initException, false);
         this.stage = primaryStage;
         var icon = Objects.requireNonNull(CDCScannerApplication.class.getResource("/images/logo.png")).toExternalForm();
         this.stage.getIcons().add(new Image(icon));
@@ -58,10 +63,10 @@ public class CDCScannerApplication extends Application {
             this.config = ConfigHolder.getContext();
             isAppRegistered = registrationService.isRegistered();
             logger.info("Application init run successfully");
-            Thread.sleep(1000);
+            Thread.sleep(700);
         } catch (InterruptedException | IOException e) {
             if (e instanceof InterruptedException) Thread.currentThread().interrupt();
-            catchStarterError(e, false);
+            initException = e;
         }
     }
 

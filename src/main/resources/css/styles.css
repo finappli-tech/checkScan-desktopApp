@@ -1,78 +1,150 @@
-@import "button.css";
-@import "input.css";
-@import "form.css";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400..800;1,400..800&display=swap');
 
-root * {
-    -fx-font-family: Georgia, Calibri, "Roboto Light", Serif;
+.root {
+    -fx-font-family: 'Open Sans', Georgia, Calibri, "Roboto Light", sans-serif;
 }
 
-.anchorPane {
-    -fx-background-color: #030303;
+* {
+    -fx-primary-color: #0957B5;
+    -fx-secondary-color: #86120D;
+    -fx-light-grey-color: #d1d1d1;
+    -fx-focus-color: -fx-secondary-color;
 }
 
-.anchorPaneBrown {
-    -fx-background-color: #282828;
-}
-
-.text-base {
-    -fx-font-size: 14;
-}
-
-.text-md {
-    -fx-font-size: 17;
-}
-
-.text-lg {
-    -fx-font-size: 24;
-}
-
-.text-xl {
-    -fx-font-size: 28;
-}
-
-.text-2xl {
-    -fx-font-size: 34;
-}
-
-.text-3xl {
-    -fx-font-size: 40;
-}
-
-.text-4xl {
-    -fx-font-size: 45;
-}
-
-.text-5xl {
-    -fx-font-size: 50;
-}
-
-.text-center {
-    -fx-alignment: center;
-}
-
-.text-left {
-    -fx-alignment: center-left;
-}
-
-.text-right {
-    -fx-alignment: center-right;
+.anchorPaneBGFull {
+    -fx-background-size: auto, auto;
+    -fx-background-position: 0, 100%;
+    -fx-background-image: url("../images/bg-cdc-1920x1080-1.jpg");
 }
 
 .text-white {
     -fx-text-fill: white !important;
 }
 
+.text-blue {
+    -fx-text-fill: -fx-primary-color !important;
+}
+
+.text-red {
+    -fx-text-fill: -fx-secondary-color !important;
+}
+
+.bg-white {
+    -fx-background-color: white;
+}
+
+.bg-transparent {
+    -fx-background-color: transparent;
+}
+
+.text-sm {
+    -fx-font-size: 12 !important;
+}
+
+.text-base {
+    -fx-font-size: 14 !important;
+}
+
+.text-md {
+    -fx-font-size: 17 !important;
+}
+
+.text-lg {
+    -fx-font-size: 24 !important;
+}
+
+.text-xl {
+    -fx-font-size: 28 !important;
+}
+
+.text-2xl {
+    -fx-font-size: 34 !important;
+}
+
+.text-3xl {
+    -fx-font-size: 40 !important;
+}
+
+.text-4xl {
+    -fx-font-size: 45 !important;
+}
+
+.text-5xl {
+    -fx-font-size: 50 !important;
+}
+
+.text-center {
+    -fx-alignment: center !important;
+}
+
+.text-left {
+    -fx-alignment: center-left !important;
+}
+
+.text-right {
+    -fx-alignment: center-right !important;
+}
+
 .text-italic {
-    -fx-font-style: italic;
+    -fx-font-style: italic !important;
 }
 
 .text-underline {
-    -fx-underline: true;
+    -fx-underline: true !important;
+}
+
+.field {
+    -fx-background-color: white;
+    -fx-background-radius: 15 !important;
+    -fx-border-radius: 15 !important;
+    -fx-border-color: transparent;
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}
+
+.label {
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+}
+
+.button {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+    -fx-color-label-visible: true;
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
+
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: transparent;
+}
+
+.button.return-button {
+    -fx-background-color: white;
+    -fx-text-fill: -fx-primary-color;
+    -fx-font-size: 17px;
+}
+
+.button.launch-scan-button {
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.button.return-button:hover {
+    -fx-background-color: -fx-secondary-color !important;
 }
 
 /*######################### TABLE ##########################*/
-.column {
-    -fx-cursor: hand;
+.table-view .column-header {
+    -fx-background-color: -fx-secondary-color !important;
+    -fx-pref-height: 40;
+    -fx-font-size: 12 !important;
+}
+
+.table-view .column-header > .label {
+    -fx-text-fill: white !important;
+    -fx-font-size: 13 !important;
+    -fx-font-weight: 400 !important;
 }
 
 .column.centered {
@@ -83,11 +155,10 @@ root * {
 .pagination {
     -fx-cursor: hand;
     -fx-background-color: white;
-    -fx-text-fill: white !important;
+    -fx-text-fill: transparent !important;
     -fx-page-information-visible: false;
 }
 
-/* Remove spacing */
 .pagination > .pagination-control > .control-box {
     -fx-spacing: 2;
     -fx-font-size: 10;
@@ -96,29 +167,29 @@ root * {
 .pagination > .pagination-control > .control-box > .number-button,
 .pagination > .pagination-control > .control-box > .bullet-button {
     -fx-background-insets: 0, 1;
-    -fx-background-color: #030303;
+    -fx-background-color: -fx-primary-color;
     -fx-text-fill: white;
     -fx-min-width: 25;
     -fx-min-height: 25;
 
     -fx-border-width: 1;
     -fx-border-style: solid;
-    -fx-border-color: #030303;
+    -fx-border-color: -fx-secondary-color;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
 }
 
 .pagination > .pagination-control > .control-box > .left-arrow-button,
 .pagination > .pagination-control > .control-box > .right-arrow-button {
+    -fx-text-fill: -fx-primary-color;
+    -fx-fill: -fx-primary-color;
     -fx-background-color: transparent;
 }
 
-
-/* Colors on hover */
 .pagination > .pagination-control > .control-box > .number-button:hover,
 .pagination > .pagination-control > .control-box > .bullet-button:hover {
     -fx-background-insets: 0;
-    -fx-background-color: #282828;
+    -fx-background-color: -fx-secondary-color;
 }
 
 /* Selected toggle color */
@@ -126,8 +197,8 @@ root * {
 .pagination > .pagination-control > .control-box > .bullet-button:selected {
     -fx-background-insets: 0;
     -fx-background-color: white;
-    -fx-text-fill: #030303;
-    -fx-border-color: #030303;
+    -fx-text-fill: -fx-primary-color;
+    -fx-border-color: -fx-primary-color;
 }
 
 /*################## Refresh Icon Button #####################*/
@@ -153,7 +224,7 @@ root * {
 /*################# Progress Bar Indicator #######################*/
 .homeIndicator {
     -fx-progress-color: white;
-    -fx-font-size: 30;
+    -fx-font-size: 30px;
     -size: 80;
     -fx-min-width: -size;
     -fx-min-height: -size;
@@ -161,4 +232,117 @@ root * {
     -fx-pref-height: -size;
     -fx-max-width: -size;
     -fx-max-height: -size;
+}
+
+.white-loader {
+    -fx-progress-color: white;
+}
+
+/*################## Scan Page ###################################*/
+.check-image-view {
+    -fx-background-color: transparent;
+    -fx-border-style: solid;
+    -fx-border-color: -fx-primary-color;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    /*-fx-background-radius: 5;*/
+}
+
+/*################## Choice box (DropDown) #######################*/
+
+.choice-box {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: transparent;
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}
+
+.blue-border {
+    -fx-border-color: -fx-primary-color !important;
+}
+
+.choice-box.authBox .menu-item > .label {
+    -fx-pref-width: 300;
+}
+
+.column,
+.choice-box,
+.choice-box .menu-item {
+    -fx-cursor: hand;
+}
+
+/*################ Nav Bar #####################################*/
+
+.blue-nav {
+    -fx-background-color: linear-gradient(to right, -fx-primary-color, -fx-secondary-color) !important;
+    -fx-border-width: 0;
+    -fx-border-insets: 0;
+}
+
+/*############### Date Picker #################################*/
+.date-picker {
+    -fx-font-size: 13px;
+    -fx-border-color: -fx-primary-color;
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: -fx-primary-color;
+    -fx-background-radius: 0;
+    -fx-cursor: hand;
+}
+
+.date-picker .arrow-button:hover {
+    -fx-background-color: -fx-secondary-color;
+}
+
+.date-picker .arrow-button .arrow {
+    -fx-background-color: white;
+}
+
+.date-picker .cell {
+    -fx-background-color: white;
+    -fx-cursor: hand;
+    pointer-events: none;
+}
+
+.date-picker .cell:hover {
+    -fx-background-color: -fx-secondary-color;
+}
+
+.date-picker .cell:focused {
+    -fx-background-color: -fx-light-grey-color;
+}
+
+.date-picker .selected {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+}
+
+.date-picker .selected:focused {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+}
+
+.date-picker-popup {
+    -fx-border-color: transparent;
+}
+
+.date-picker-popup .month-year-pane {
+    -fx-background-color: -fx-primary-color;
+}
+
+.date-picker-popup .month-year-pane .label {
+    -fx-text-fill: white;
+}
+
+.date-picker-popup .week-number-cell {
+    -fx-text-fill: -fx-secondary-color;
+}
+
+.date-picker-popup .spinner .button .left-arrow,
+.date-picker-popup .spinner .button .right-arrow {
+    -fx-background-color: white;
+    -fx-cursor: hand;
 }

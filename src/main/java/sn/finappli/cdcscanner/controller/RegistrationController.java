@@ -17,6 +17,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sn.finappli.cdcscanner.CDCScannerApplication;
 import sn.finappli.cdcscanner.model.output.RegistrationOutput;
 import sn.finappli.cdcscanner.service.RegistrationService;
 import sn.finappli.cdcscanner.service.impl.RegistrationServiceImpl;
@@ -68,7 +69,7 @@ public class RegistrationController implements Initializable {
 
     private void goToAuthenticationPage(@NotNull Node node) {
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(RegistrationController.class.getResource("authentication.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(CDCScannerApplication.class.getResource("authentication.fxml")));
             Stage stage = (Stage) node.getScene().getWindow();
             var scene = new Scene(root, 800, 600);
             stage.setTitle("Connexion");

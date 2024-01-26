@@ -2,31 +2,36 @@
 
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sn.finappli.cdcscanner.controller.HomeController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" styleClass="bg-white" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sn.finappli.cdcscanner.controller.HomeController">
     <VBox fx:id="container">
-        <ToolBar prefHeight="41.0" prefWidth="900.0">
-            <ImageView cache="true" fitHeight="60.0" fitWidth="180.0" mouseTransparent="true" pickOnBounds="true">
-                <Image url="@../../../images/logo-cdc-202.png" />
+        <ToolBar maxHeight="60.0" maxWidth="900.0" prefHeight="60.0" prefWidth="900.0" styleClass="blue-nav">
+            <ImageView cache="true" fitHeight="50.0" fitWidth="180.0" mouseTransparent="true" pickOnBounds="true">
+                <Image url="@../../../images/logo-cdc-white.png" />
             </ImageView>
             <ButtonBar prefHeight="60.0" prefWidth="704.0">
                 <buttons>
-                    <Button fx:id="newScanButton" mnemonicParsing="false" onAction="#launchNewScan" prefHeight="40.0" prefWidth="140.0" text="Nouveau Scan" />
+                    <Button fx:id="newScanButton" mnemonicParsing="false" onAction="#launchNewScan" prefHeight="40.0" prefWidth="191.0" styleClass="text-md" text="Nouveau Scan">
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
+                    </Button>
                 </buttons>
                 <padding>
                     <Insets right="20.0" />
                 </padding>
             </ButtonBar>
         </ToolBar>
-        <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="900.0">
+        <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="900.0" styleClass="bg-white">
             <Label prefHeight="30.0" prefWidth="847.0" text="Historique de Scan">
                 <styleClass>
                     <String fx:value="text-xl" />
-                    <String fx:value="text-white" />
+                    <String fx:value="text-blue" />
                     <String fx:value="text-left" />
                 </styleClass>
                 <padding>
@@ -40,7 +45,7 @@
                 <Label>Aucune donnée disponible</Label>
             </placeholder>
             <columns>
-                <TableColumn fx:id="creationColumn" editable="false" prefWidth="118.0" resizable="false" text="Date création">
+                <TableColumn fx:id="creationColumn" editable="false" prefWidth="92.0" resizable="false" text="Date création">
                     <cellValueFactory>
                         <PropertyValueFactory property="date" />
                     </cellValueFactory>
@@ -49,7 +54,7 @@
                         <String fx:value="centered" />
                     </styleClass>
                 </TableColumn>
-                <TableColumn fx:id="dateColumn" editable="false" prefWidth="90.0" resizable="false" text="Date chèque">
+                <TableColumn fx:id="dateColumn" editable="false" prefWidth="109.0" resizable="false" text="Date chèque">
                     <cellValueFactory>
                         <PropertyValueFactory property="createdAt" />
                     </cellValueFactory>
@@ -58,7 +63,7 @@
                         <String fx:value="centered" />
                     </styleClass>
                 </TableColumn>
-                <TableColumn fx:id="cmcColumn" editable="false" minWidth="0.0" prefWidth="192.0" resizable="false" text="CMC">
+                <TableColumn fx:id="cmcColumn" editable="false" minWidth="0.0" prefWidth="200.0" resizable="false" text="CMC">
                     <cellValueFactory>
                         <PropertyValueFactory property="cmc" />
                     </cellValueFactory>
@@ -67,7 +72,7 @@
                         <String fx:value="centered" />
                     </styleClass>
                 </TableColumn>
-                <TableColumn fx:id="recipientColumn" editable="false" maxWidth="1.7976931348623157E308" prefWidth="273.0" resizable="false" text="Bénéficiaire">
+                <TableColumn fx:id="recipientColumn" editable="false" maxWidth="1.7976931348623157E308" prefWidth="286.0" resizable="false" text="Bénéficiaire">
                     <cellValueFactory>
                         <PropertyValueFactory property="recipient" />
                     </cellValueFactory>
@@ -76,7 +81,7 @@
                         <String fx:value="centered" />
                     </styleClass>
                 </TableColumn>
-                <TableColumn fx:id="amountColumn" editable="false" prefWidth="117.0" resizable="false" text="Montant">
+                <TableColumn fx:id="amountColumn" editable="false" prefWidth="114.0" resizable="false" text="Montant">
                     <cellValueFactory>
                         <PropertyValueFactory property="amount" />
                     </cellValueFactory>
@@ -85,7 +90,7 @@
                         <String fx:value="centered" />
                     </styleClass>
                 </TableColumn>
-                <TableColumn fx:id="statusColumn" editable="false" prefWidth="95.0" resizable="false" text="Status">
+                <TableColumn fx:id="statusColumn" editable="false" resizable="false" text="Status">
                     <cellValueFactory>
                         <PropertyValueFactory property="status" />
                     </cellValueFactory>
