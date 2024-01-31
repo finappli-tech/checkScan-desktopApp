@@ -4,7 +4,8 @@
             <pattern>%d{dd-MMM-yyyy HH:mm:ss.SSSS} [%thread] %-5level%logger{100} - %msg%n</pattern>
         </encoder>
     </appender>
-    <root level="trace">
+    <logger name="org.apache.hc.client5.http" level="warn"/>
+    <root level="DEBUG">
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

@@ -2,8 +2,7 @@ package sn.finappli.cdcscanner.utility;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -29,7 +28,7 @@ public final class SystemUtils {
 
     public static final String DEFAULT_ENCODER = "HmacSHA256";
     public static final int TOKEN_EXPIRATION = 6 * 60 * 60; // seconds
-    private static final Logger LOGGER = LoggerFactory.getLogger(SystemUtils.class);
+    private static final Logger LOGGER = Logger.getLogger(SystemUtils.class);
     private static final String IP_URL = "https://httpbin.org/ip";
 
     private SystemUtils() {

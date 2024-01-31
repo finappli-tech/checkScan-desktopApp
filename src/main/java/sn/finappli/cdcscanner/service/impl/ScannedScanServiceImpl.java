@@ -1,24 +1,38 @@
 package sn.finappli.cdcscanner.service.impl;
 
 import lombok.val;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sn.finappli.cdcscanner.model.input.ScanInputPaged;
 import sn.finappli.cdcscanner.model.input.ServerResponse;
+import sn.finappli.cdcscanner.model.output.ScanImageOutput;
 import sn.finappli.cdcscanner.model.output.ScanRegistrationOutput;
+import sn.finappli.cdcscanner.security.SecurityContextHolder;
 import sn.finappli.cdcscanner.service.ScanService;
 import sn.finappli.cdcscanner.utility.ConfigHolder;
 import sn.finappli.cdcscanner.utility.HttpUtils;
 import sn.finappli.cdcscanner.utility.Utils;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static sn.finappli.cdcscanner.utility.HttpUtils.calculateHmacSha256;
 import static sn.finappli.cdcscanner.utility.Utils.buildError;
 import static sn.finappli.cdcscanner.utility.Utils.jsonToClass;
 
@@ -46,8 +60,7 @@ public class ScannedScanServiceImpl implements ScanService {
                 return new ScanInputPaged();
             } else return jsonToClass(ScanInputPaged.class, response.body());
         } catch (Exception e) {
-            if (e instanceof InterruptedException) Thread.currentThread().interrupt();
-            logger.error(e.getMessage(), e);
+            catchException(e);
             return new ScanInputPaged();
         }
     }
@@ -77,9 +90,51 @@ public class ScannedScanServiceImpl implements ScanService {
                 return result.error(error.getMessage()).build();
             } else return result.build();
         } catch (Exception e) {
-            if (e instanceof InterruptedException) Thread.currentThread().interrupt();
-            logger.error(e.getMessage(), e);
-            return ServerResponse.builder().hasError(true).error(e.getMessage()).build();
+            return catchException(e);
         }
+    }
+
+    @Override
+    public @NotNull ServerResponse sendScannedImages(@NotNull ScanImageOutput output) {
+        try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
+            var uri = ConfigHolder.getContext().getScannedImageUrl().replace("#id", String.valueOf(output.scanId()));
+            var sec = SecurityContextHolder.getContext();
+            var date = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            var digest = calculateHmacSha256("POST".concat(uri).concat(date), sec.secret(), sec.encoder());
+
+            final HttpPost post = new HttpPost(uri);
+            post.setHeader("cookie", "access_token=%s".formatted(sec.token()));
+            post.setHeader("X-Once", date);
+            post.setHeader("X-Digest", digest);
+
+
+            val builder = MultipartEntityBuilder.create().setMode(HttpMultipartMode.LEGACY);
+            for (var file: output.files())
+                builder.addBinaryBody("files", file, ContentType.DEFAULT_BINARY, file.getName());
+
+            post.setEntity(builder.build());
+
+            return client.execute(post, response -> {
+                var responseString = EntityUtils.toString(response.getEntity());
+
+                if (response.getCode() <= 299)
+                    return ServerResponse.builder().hasError(false).message(responseString).build();
+                else {
+                    var error = buildError(response.getCode(), responseString);
+                    logger.error("SAVING SCAN IMAGE ERROR");
+                    logger.error("\tERROR: {}", error);
+                    return ServerResponse.builder().hasError(true).error(responseString).build();
+                }
+            });
+        } catch (IOException | NoSuchAlgorithmException | InvalidKeyException e) {
+            logger.error(e.getMessage(), e);
+            return new ServerResponse(true, e.getMessage(), null);
+        }
+    }
+
+    private @NotNull <T extends Exception> ServerResponse catchException(T e) {
+        if (e instanceof InterruptedException) Thread.currentThread().interrupt();
+        logger.error(e.getMessage(), e);
+        return ServerResponse.builder().hasError(true).error(e.getMessage()).build();
     }
 }

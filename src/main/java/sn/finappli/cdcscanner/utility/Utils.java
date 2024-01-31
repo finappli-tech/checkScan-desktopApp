@@ -11,11 +11,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Region;
 import javafx.util.Duration;
+import org.apache.log4j.Logger;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import sn.finappli.cdcscanner.model.input.APIError;
 
 import java.io.IOException;
@@ -38,7 +37,7 @@ public final class Utils {
 
     public static final String CONTENT_TYPE_HEADER = "Content-type";
     public static final String CONTENT_TYPE = "application/json";
-    private static final Logger LOGGER = LoggerFactory.getLogger(Utils.class);
+    private static final Logger LOGGER = Logger.getLogger(Utils.class);
     private static final String DEFAULT_ERROR_MESSAGE = "Une erreur s'est produite. Veuillez réessayer SVP!";
     private static final String UUID_REGEX = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$";
 

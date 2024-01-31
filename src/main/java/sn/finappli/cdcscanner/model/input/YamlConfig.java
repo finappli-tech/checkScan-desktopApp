@@ -24,6 +24,12 @@ public final class YamlConfig {
     private String requestLoginUrl;
 
     private String scannedItemsUrl;
+    private String scannedImageUrl;
 
     private int pageItems;
+
+    private String scanStoragePath;
+
+    public String dtwainErrorDescriptorPath;
+
 }

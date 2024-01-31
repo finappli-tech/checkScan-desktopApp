@@ -62,7 +62,7 @@ public final class HttpUtils {
     }
 
     @Contract("_, _, _ -> new")
-    private static @NotNull String calculateHmacSha256(@NotNull String message, @NotNull String secretKey, String algorithm) throws NoSuchAlgorithmException, InvalidKeyException {
+    public static @NotNull String calculateHmacSha256(@NotNull String message, @NotNull String secretKey, String algorithm) throws NoSuchAlgorithmException, InvalidKeyException {
         var sha256Hmac = Mac.getInstance(algorithm);
         var keySpec = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), algorithm);
         sha256Hmac.init(keySpec);

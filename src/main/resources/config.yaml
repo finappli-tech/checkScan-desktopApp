@@ -1,9 +1,10 @@
-baseUrl: http://localhost:8090/api
+baseUrl: http://51.75.242.129:8079/api
 
 checkAppRegistrationUrl: ${baseUrl}/tokens/signup/check-scanner
 registrationUrl: ${baseUrl}/tokens/signup/scanner
 
 scannedItemsUrl: ${baseUrl}/check-scan
+scannedImageUrl: ${baseUrl}/check-scan/#id/images
 
 requestLoginUrl: ${baseUrl}/tokens/signin/scanner/request
 requestLoginUsersUrl: ${baseUrl}/tokens/signin/scanner/users
@@ -11,3 +12,6 @@ loginUrl:  ${baseUrl}/tokens/signin/scanner
 
 pageItems: 17
 loginTokenCountdown: 300
+
+scanStoragePath: C:\\Users\\Seydou.Sow\\finappli\\scanned_items
+dtwainErrorDescriptorPath: /dtwain/language/twainresourcestrings_french.txt

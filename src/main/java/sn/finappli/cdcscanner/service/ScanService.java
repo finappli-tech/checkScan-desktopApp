@@ -2,6 +2,7 @@ package sn.finappli.cdcscanner.service;
 
 import sn.finappli.cdcscanner.model.input.ScanInputPaged;
 import sn.finappli.cdcscanner.model.input.ServerResponse;
+import sn.finappli.cdcscanner.model.output.ScanImageOutput;
 import sn.finappli.cdcscanner.model.output.ScanRegistrationOutput;
 
 public interface ScanService {
@@ -9,4 +10,6 @@ public interface ScanService {
     ScanInputPaged listScannedItems(int page);
 
     ServerResponse sendScan(ScanRegistrationOutput output);
+
+    ServerResponse sendScannedImages(ScanImageOutput output);
 }
