@@ -36,10 +36,20 @@ import static sn.finappli.cdcscanner.utility.HttpUtils.calculateHmacSha256;
 import static sn.finappli.cdcscanner.utility.Utils.buildError;
 import static sn.finappli.cdcscanner.utility.Utils.jsonToClass;
 
+/**
+ * Implementation of the {@link ScanService} interface for scanned items.
+ */
 public class ScannedScanServiceImpl implements ScanService {
 
     private static final Logger logger = LoggerFactory.getLogger(ScannedScanServiceImpl.class);
 
+    /**
+     * Retrieves a paged list of scanned items from the remote server.
+     *
+     * @param page The page number to retrieve.
+     * @return A {@link ScanInputPaged} object representing the scanned items on the specified page.
+     * If an error occurs during the retrieval process, an empty {@link ScanInputPaged} object is returned.
+     */
     @Override
     public ScanInputPaged listScannedItems(int page) {
         try {
@@ -65,6 +75,12 @@ public class ScannedScanServiceImpl implements ScanService {
         }
     }
 
+    /**
+     * Sends the scan registration output to the remote server.
+     *
+     * @param output The {@link ScanRegistrationOutput} object representing the scan to be registered.
+     * @return A {@link ServerResponse} object indicating the success or failure of the operation.
+     */
     @Override
     public ServerResponse sendScan(ScanRegistrationOutput output) {
         var result = ServerResponse.builder();
@@ -94,6 +110,12 @@ public class ScannedScanServiceImpl implements ScanService {
         }
     }
 
+    /**
+     * Sends the scanned images to the remote server.
+     *
+     * @param output The {@link ScanImageOutput} object representing the scanned images to be sent.
+     * @return A {@link ServerResponse} object indicating the success or failure of the operation.
+     */
     @Override
     public @NotNull ServerResponse sendScannedImages(@NotNull ScanImageOutput output) {
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
@@ -109,7 +131,7 @@ public class ScannedScanServiceImpl implements ScanService {
 
 
             val builder = MultipartEntityBuilder.create().setMode(HttpMultipartMode.LEGACY);
-            for (var file: output.files())
+            for (var file : output.files())
                 builder.addBinaryBody("files", file, ContentType.DEFAULT_BINARY, file.getName());
 
             post.setEntity(builder.build());

@@ -102,6 +102,12 @@
     -fx-font-size: 14px;
 }
 
+.bold-disabled:disabled {
+    -fx-opacity: 1 !important;
+    -fx-fill: black !important;
+    -fx-font-weight: 700 !important;
+}
+
 .label {
     -fx-font-size: 14px;
     -fx-font-weight: 700;
@@ -131,7 +137,8 @@
 }
 
 .button.return-button:hover {
-    -fx-background-color: -fx-secondary-color !important;
+    -fx-background-color: -fx-primary-color !important;
+    -fx-text-fill: white !important;
 }
 
 /*######################### TABLE ##########################*/

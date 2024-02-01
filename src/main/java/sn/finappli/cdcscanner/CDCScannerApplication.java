@@ -16,14 +16,21 @@ import sn.finappli.cdcscanner.service.RegistrationService;
 import sn.finappli.cdcscanner.service.impl.RegistrationServiceImpl;
 import sn.finappli.cdcscanner.utility.ConfigHolder;
 import sn.finappli.cdcscanner.utility.SystemUtils;
+import sn.finappli.cdcscanner.utility.Utils;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static sn.finappli.cdcscanner.utility.Utils.catchStarterError;
 import static sn.finappli.cdcscanner.utility.Utils.getDefaultCss;
 
+/**
+ * Main class for the CDC Scanner application.
+ */
 public class CDCScannerApplication extends Application {
 
     private static final Logger logger = LoggerFactory.getLogger(CDCScannerApplication.class);
@@ -34,11 +41,21 @@ public class CDCScannerApplication extends Application {
     private boolean isAppRegistered = false;
     private Exception initException = null;
 
+    /**
+     * The entry point for the application.
+     *
+     * @param args The command-line arguments.
+     */
     public static void main(String[] args) {
         System.setProperty("javafx.preloader", PreloaderController.class.getCanonicalName());
         launch(args);
     }
 
+    /**
+     * Starts the JavaFX application.
+     *
+     * @param primaryStage The primary stage for the application.
+     */
     @Override
     public void start(Stage primaryStage) {
         if (Objects.nonNull(initException)) catchStarterError(initException, false);
@@ -61,12 +78,18 @@ public class CDCScannerApplication extends Application {
         logger.info("Application started successfully");
     }
 
+    /**
+     * Initializes the application by loading configurations and checking the registration status.
+     */
     @Override
     public void init() {
         try {
             logger.info("Initializing application");
             SystemUtils.loadAppConfig();
             this.config = ConfigHolder.getContext();
+            checkScanStorePath(ConfigHolder.getContext().getScanStoragePath(), "de stockage");
+            checkScanStorePath(ConfigHolder.getContext().getScanArchivePath(), "d'archive");
+
             isAppRegistered = registrationService.isRegistered();
             logger.info("Application init run successfully");
             Thread.sleep(1000);
@@ -76,6 +99,34 @@ public class CDCScannerApplication extends Application {
         }
     }
 
+    /**
+     * Checks the validity of the scan store path.
+     *
+     * @param root       The root path of the scan store.
+     * @param folderType The type of the folder (storage or archive).
+     */
+    private void checkScanStorePath(String root, String folderType) {
+        var path = Paths.get(root);
+        String message;
+        if (isBlank(root))
+            message = "Le dossier %s des fichiers scannés n'est pas configuré".formatted(folderType);
+        else if (!Files.exists(path))
+            message = "Le chemin `%s` du dossier %s des fichiers scannés n'existe pas".formatted(root, folderType);
+        else if (!Files.isReadable(path))
+            message = "Veuillez autoriser l'accès au dossier %s des fichiers scannés".formatted(folderType);
+        else if (!Files.isDirectory(path))
+            message = "Le chemin du dossier %s doit être un dossier".formatted(folderType);
+        else return;
+        logger.error("No access to folder");
+        logger.error(root);
+        logger.error(message);
+        Utils.displaySimpleErrorAlertDialog(message, "INITIALISATION");
+        System.exit(-10000);
+    }
+
+    /**
+     * Stops the application, clearing security and configuration contexts.
+     */
     @Override
     public void stop() {
         logger.info("Start application exit process");
@@ -84,6 +135,12 @@ public class CDCScannerApplication extends Application {
         logger.info("Application exited gracefully");
     }
 
+    /**
+     * Replaces the current scene content with a new one.
+     *
+     * @param fxml  The FXML file to load.
+     * @param title The title of the new scene.
+     */
     private void replaceSceneContent(String fxml, String title) {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(CDCScannerApplication.class.getResource(fxml)));

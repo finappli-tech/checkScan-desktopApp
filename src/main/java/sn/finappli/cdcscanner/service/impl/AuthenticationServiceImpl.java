@@ -33,10 +33,21 @@ import static sn.finappli.cdcscanner.utility.Utils.classToJson;
 import static sn.finappli.cdcscanner.utility.Utils.hexToString;
 import static sn.finappli.cdcscanner.utility.Utils.jsonToList;
 
+/**
+ * Implementation of the {@link AuthenticationService} interface for handling user authentication operations.
+ */
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
 
+    /**
+     * Retrieves a list of phone inputs for login requests from the remote server. The method sends a request
+     * to the server to fetch login users' information and processes the server's response. If the response
+     * status is successful (HTTP 200), the method returns a list of {@link LoginRequestPhoneInput} objects
+     * containing user information. Otherwise, an error is logged, and an empty list is returned.
+     *
+     * @return A list of {@link LoginRequestPhoneInput} objects or an empty list if an error occurs.
+     */
     @Override
     public List<LoginRequestPhoneInput> findUserForApp() {
         try {
@@ -65,6 +76,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
+    /**
+     * Requests authentication for the given UUID from the remote server. The method constructs an
+     * authentication request using the provided UUID, sends the request to the server, and processes
+     * the server's response. If the response status is successful (HTTP 200), the method stores the
+     * obtained authentication information and returns a {@link LoginRequestInput} object. Otherwise,
+     * an error is logged, and a {@link LoginRequestInput} object with an error message is returned.
+     *
+     * @param uuid The UUID for which authentication is requested.
+     * @return A {@link LoginRequestInput} object containing authentication information or an error message.
+     */
     @Override
     public @NotNull LoginRequestInput requestAuthentication(String uuid) {
         try {
@@ -92,6 +113,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
+    /**
+     * Authenticates the user with the remote server using the provided UUID. The method sends an authentication
+     * request to the server and verifies the response status. If the response status is successful (HTTP 200),
+     * the method stores the authentication token and secret obtained from the response headers, and returns
+     * {@code true}. Otherwise, an error is logged, and the method returns {@code false}.
+     *
+     * @param uuid The UUID used for authentication.
+     * @return {@code true} if authentication is successful, {@code false} otherwise.
+     */
     @Override
     public boolean authenticate(String uuid) {
         try {
@@ -121,6 +151,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
+    /**
+     * Extracts and stores user login information from the provided HTTP headers. The method retrieves
+     * the user ID and hashed code from the headers, and constructs a {@link LoginRequestInput} object
+     * with the extracted information. In case of missing or invalid data, an error message is logged,
+     * and a {@link LoginRequestInput} object with an error message is returned.
+     *
+     * @param headers The HTTP headers containing user login information.
+     * @return A {@link LoginRequestInput} object with stored login information or an error message.
+     */
     private @NotNull LoginRequestInput storeUsersLoginInformation(@NotNull HttpHeaders headers) {
         var userId = headers.firstValue("Proxy-Authenticate").orElse(null);
         var hashedCode = headers.firstValue("Proxy-Authorization").orElse(null);
@@ -135,6 +174,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
+    /**
+     * Stores the authentication token and secret obtained from the server response. The method retrieves
+     * the authentication token and secret from the provided HTTP response headers and stores them in the
+     * {@link SecurityContextHolder} for future use in the application.
+     *
+     * @param response The HTTP response containing authentication token and secret.
+     * @throws IllegalArgumentException If the authentication token or secret is missing from the response headers.
+     */
     private void storeToken(@NotNull HttpResponse<String> response) {
         var token = response.headers().firstValue("authorization").orElse("");
         var secret = response.headers().firstValue("x-secret").orElse("");
@@ -142,7 +189,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         var encoder = response.headers().firstValue("www-authenticate").orElse(SystemUtils.DEFAULT_ENCODER);
         var expiry = LocalDateTime.now().plusSeconds(SystemUtils.TOKEN_EXPIRATION);
-        System.out.println(token);
+        System.out.println(token); // TODO remove this
         SecurityContextHolder.setContext(new SecurityContext(token, secret, encoder, expiry));
     }
 

@@ -12,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import lombok.Getter;
@@ -25,13 +27,14 @@ import sn.finappli.cdcscanner.CDCScannerApplication;
 import sn.finappli.cdcscanner.model.input.ServerResponse;
 import sn.finappli.cdcscanner.model.output.ScanRegistrationOutput;
 import sn.finappli.cdcscanner.security.SecurityContextHolder;
+import sn.finappli.cdcscanner.service.FolderReaderService;
 import sn.finappli.cdcscanner.service.ScanService;
-import sn.finappli.cdcscanner.service.impl.DTwainServiceImpl;
+import sn.finappli.cdcscanner.service.impl.FolderReaderServiceImpl;
 import sn.finappli.cdcscanner.service.impl.ScannedScanServiceImpl;
 import sn.finappli.cdcscanner.utility.SystemUtils;
 import sn.finappli.cdcscanner.utility.Utils;
 
-import javax.print.PrintService;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
@@ -51,9 +54,8 @@ import static sn.finappli.cdcscanner.utility.Utils.getDefaultCss;
 public class ScanController implements Initializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ScanController.class);
-    private static final String EXTENSION = "jpeg";
     private final ScanService scanService = new ScannedScanServiceImpl();
-    private final DTwainServiceImpl dTwainService = new DTwainServiceImpl();
+    private final FolderReaderService readerService = new FolderReaderServiceImpl();
 
     private boolean isDateValid = false;
 
@@ -71,6 +73,10 @@ public class ScanController implements Initializable {
     private ProgressIndicator loader;
     @FXML
     private Button launchScan;
+    @FXML
+    private ImageView recto;
+    @FXML
+    private ImageView verso;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -99,8 +105,25 @@ public class ScanController implements Initializable {
 
     @FXML
     void print() {
-        var result = dTwainService.launch();
-        System.out.println(result);
+        setFieldStatus(false);
+        try {
+            var items = readerService.readScanFolder();
+            if (!items.isEmpty()) {
+                setFieldStatus(true);
+                var item = items.get(0);
+                cmcField.setText(item.getCmc());
+                recto.setImage(new Image(item.getFileR().toUri().toString()));
+                verso.setImage(new Image(item.getFileV().toUri().toString()));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setFieldStatus(boolean status) {
+        dateField.setDisable(status);
+        recipientField.setDisable(status);
+        amountField.setDisable(status);
     }
 
     @FXML

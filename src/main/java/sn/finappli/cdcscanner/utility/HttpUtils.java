@@ -20,6 +20,29 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Utility class for HTTP-related operations, including header manipulation and HMAC-SHA256 calculation.
+ * This class provides methods for appending headers and digest to an HTTP request, handling cookies, and
+ * calculating HMAC-SHA256 signatures for message integrity.
+ *
+ * <p>The class is designed as a utility and cannot be instantiated.</p>
+ *
+ * @implNote This class uses a {@link CookieManager} with {@link CookiePolicy#ACCEPT_ALL} as the default
+ * {@link CookieHandler} to handle cookies in HTTP requests.
+ * @see Logger
+ * @see LoggerFactory
+ * @see CookieHandler
+ * @see CookieManager
+ * @see CookiePolicy
+ * @see HttpCookie
+ * @see HttpRequest
+ * @see StringUtils
+ * @see SecurityContextHolder
+ * @see Mac
+ * @see SecretKeySpec
+ * @see NoSuchAlgorithmException
+ * @see InvalidKeyException
+ */
 public final class HttpUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpUtils.class);
@@ -32,6 +55,16 @@ public final class HttpUtils {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
 
+    /**
+     * Appends headers and digest to an HTTP request based on the provided method, URI, body, and date.
+     *
+     * @param method The HTTP method (e.g., GET, POST).
+     * @param uri    The URI of the HTTP request.
+     * @param body   The body content of the HTTP request (can be null).
+     * @param date   The date to be included in the request headers.
+     * @return A {@link HttpRequest.Builder} with the appended headers, or {@code null} if an exception occurs.
+     * @throws NullPointerException If {@code method}, {@code uri}, or {@code date} is {@code null}.
+     */
     @Contract("_, _, _, _ -> new")
     public static HttpRequest.@Nullable Builder appendHeaderAndDigest(String method, String uri, @Nullable String body, String date) {
         try {
@@ -54,6 +87,11 @@ public final class HttpUtils {
         }
     }
 
+    /**
+     * Retrieves a pre-configured {@link HttpCookie} representing the access token.
+     *
+     * @return The access token {@link HttpCookie}.
+     */
     private static @NotNull HttpCookie getTokenCookie() {
         var token = SecurityContextHolder.getContext().token();
         var cookie = new HttpCookie("access_token", token);
@@ -61,6 +99,17 @@ public final class HttpUtils {
         return cookie;
     }
 
+    /**
+     * Calculates the HMAC-SHA256 signature for a given message using a secret key and algorithm.
+     *
+     * @param message   The message for which the signature is calculated.
+     * @param secretKey The secret key for HMAC-SHA256.
+     * @param algorithm The HMAC algorithm (e.g., "HmacSHA256").
+     * @return The calculated HMAC-SHA256 signature as a hexadecimal string.
+     * @throws NoSuchAlgorithmException If the specified algorithm is not available.
+     * @throws InvalidKeyException      If the provided secret key is invalid.
+     * @throws NullPointerException     If {@code message}, {@code secretKey}, or {@code algorithm} is {@code null}.
+     */
     @Contract("_, _, _ -> new")
     public static @NotNull String calculateHmacSha256(@NotNull String message, @NotNull String secretKey, String algorithm) throws NoSuchAlgorithmException, InvalidKeyException {
         var sha256Hmac = Mac.getInstance(algorithm);

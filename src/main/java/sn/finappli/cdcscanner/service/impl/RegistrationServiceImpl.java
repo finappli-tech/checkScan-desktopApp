@@ -14,11 +14,20 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import static sn.finappli.cdcscanner.utility.Utils.CONTENT_TYPE;
-
+/**
+ * Implementation of the {@link RegistrationService} interface for registration-related operations.
+ */
 public class RegistrationServiceImpl implements RegistrationService {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationServiceImpl.class);
 
+    /**
+     * Checks whether the application is registered on the remote server.
+     *
+     * @return {@code true} if the application is registered, {@code false} otherwise.
+     * @throws IOException          If an I/O error occurs while making the HTTP request.
+     * @throws InterruptedException If the thread is interrupted while waiting for the HTTP response.
+     */
     @Override
     public boolean isRegistered() throws IOException, InterruptedException {
         var appId = SystemUtils.getAppIdentifier();
@@ -26,7 +35,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         var client = HttpClient.newHttpClient();
         var request = HttpRequest.newBuilder(URI.create(ConfigHolder.getContext().getCheckAppRegistrationUrl()))
                 .POST(HttpRequest.BodyPublishers.noBody())
-                .header("Content-type", CONTENT_TYPE)
+                .header("Content-type", Utils.CONTENT_TYPE)
                 .header("appId", appId.toString())
                 .build();
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -37,6 +46,12 @@ public class RegistrationServiceImpl implements RegistrationService {
         return false;
     }
 
+    /**
+     * Registers the application on the remote server.
+     *
+     * @param registrationOutput The {@link RegistrationOutput} object containing registration details.
+     * @return {@code true} if the registration is successful, {@code false} otherwise.
+     */
     @Override
     public boolean register(RegistrationOutput registrationOutput) {
         try {
@@ -46,7 +61,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             var request = HttpRequest.newBuilder()
                     .uri(URI.create(ConfigHolder.getContext().getRegistrationUrl()))
                     .POST(HttpRequest.BodyPublishers.ofString(body))
-                    .header("Content-type", CONTENT_TYPE)
+                    .header("Content-type", Utils.CONTENT_TYPE)
                     .build();
 
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());

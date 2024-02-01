@@ -29,7 +29,6 @@ public final class YamlConfig {
     private int pageItems;
 
     private String scanStoragePath;
-
-    public String dtwainErrorDescriptorPath;
+    private String scanArchivePath;
 
 }

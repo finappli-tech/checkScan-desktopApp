@@ -1,15 +1,0 @@
-
-]	java:S125"<This block of commented-out lines of code should be removed.(«ùò’ıÿÿÿÿ8Ë†´çÓ1
-]	java:S125 "<This block of commented-out lines of code should be removed.(ıœ…êşÿÿÿÿ8Ì†´çÓ1
-d
-java:S1128"BRemove this unused import 'javax.print.attribute.standard.Copies'.(“öÔæûÿÿÿÿ8Í†´çÓ1
-k
-java:S1128"IRemove this unused import 'javax.print.attribute.standard.MediaSizeName'.(¹Ó‰ˆøÿÿÿÿ8Í†´çÓ1
-e
-java:S1128"HRemove this unused import 'javax.print.attribute.standard.PrintQuality'.(ÍÎ˜»8Î†´çÓ1
-j
-java:S1128"MRemove this unused import 'javax.print.attribute.standard.PrinterResolution'.(÷×±¬8Î†´çÓ1
-c
-java:S1128"ARemove this unused import 'javax.print.attribute.standard.Sides'.(Ë¬ªùûÿÿÿÿ8Î†´çÓ1
-i
-java:S1128"GRemove this unused import 'javax.print.attribute.ResolutionSyntax.DPI'.(Æ¾æ·ùÿÿÿÿ8Î†´çÓ1

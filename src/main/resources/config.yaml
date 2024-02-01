@@ -13,5 +13,5 @@ loginUrl:  ${baseUrl}/tokens/signin/scanner
 pageItems: 17
 loginTokenCountdown: 300
 
-scanStoragePath: C:\\Users\\Seydou.Sow\\finappli\\scanned_items
-dtwainErrorDescriptorPath: /dtwain/language/twainresourcestrings_french.txt
+scanStoragePath: C:\Users\Seydou.Sow\IdeaProjects\cdc-scanner\src\main\resources\model-scan
+scanArchivePath: C:\Users\Seydou.Sow\IdeaProjects\cdc-scanner\src\main\resources\archive
