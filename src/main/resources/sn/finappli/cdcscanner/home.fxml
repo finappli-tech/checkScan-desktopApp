@@ -63,7 +63,7 @@
                         <String fx:value="centered" />
                     </styleClass>
                 </TableColumn>
-                <TableColumn fx:id="cmcColumn" editable="false" minWidth="0.0" prefWidth="200.0" resizable="false" text="CMC">
+                <TableColumn fx:id="cmcColumn" editable="false" minWidth="0.0" prefWidth="277.0" resizable="false" text="CMC">
                     <cellValueFactory>
                         <PropertyValueFactory property="cmc" />
                     </cellValueFactory>
@@ -72,7 +72,7 @@
                         <String fx:value="centered" />
                     </styleClass>
                 </TableColumn>
-                <TableColumn fx:id="recipientColumn" editable="false" maxWidth="1.7976931348623157E308" prefWidth="286.0" resizable="false" text="Bénéficiaire">
+                <TableColumn fx:id="recipientColumn" editable="false" maxWidth="1.7976931348623157E308" prefWidth="209.0" resizable="false" text="Bénéficiaire">
                     <cellValueFactory>
                         <PropertyValueFactory property="recipient" />
                     </cellValueFactory>
@@ -90,7 +90,7 @@
                         <String fx:value="centered" />
                     </styleClass>
                 </TableColumn>
-                <TableColumn fx:id="statusColumn" editable="false" resizable="false" text="Status">
+                <TableColumn fx:id="statusColumn" editable="false" prefWidth="91.0" resizable="false" text="Status">
                     <cellValueFactory>
                         <PropertyValueFactory property="status" />
                     </cellValueFactory>

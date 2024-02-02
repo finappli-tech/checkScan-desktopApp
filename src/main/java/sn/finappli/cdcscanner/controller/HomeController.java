@@ -16,12 +16,15 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +34,8 @@ import sn.finappli.cdcscanner.model.input.ScanInputPaged;
 import sn.finappli.cdcscanner.security.SecurityContextHolder;
 import sn.finappli.cdcscanner.service.ScanService;
 import sn.finappli.cdcscanner.service.impl.ScannedScanServiceImpl;
+import sn.finappli.cdcscanner.utility.SVGTranscoder;
 import sn.finappli.cdcscanner.utility.SystemUtils;
-import sn.finappli.cdcscanner.utility.Utils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -81,7 +84,7 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Utils.configureRefreshButton(refreshButton);
+        configureRefreshButton();
         refreshButton.setOnMouseClicked(e -> refreshTable());
 
         pagination.currentPageIndexProperty().addListener((x, y, z) -> refreshTable());
@@ -134,6 +137,17 @@ public class HomeController implements Initializable {
             LOGGER.error(e.getMessage(), e);
             System.exit(2);
         }
+    }
+
+    @SneakyThrows
+    public void configureRefreshButton() {
+        var tooltip = new Tooltip("Rafraîchir");
+        tooltip.setShowDelay(Duration.ZERO);
+        refreshButton.setTooltip(tooltip);
+        var image = SVGTranscoder.transcodeSVG("/svg/refresh.svg");
+        image.setFitHeight(30);
+        image.setPreserveRatio(true);
+        refreshButton.setGraphic(image);
     }
 
 }

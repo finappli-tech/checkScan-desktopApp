@@ -19,8 +19,6 @@ o
 mvnw.cmd,1\f\1f1763f358c257ea3515417352b82b0165647ad1
 }
 Msrc/main/java/sn/finappli/cdcscanner/service/impl/ScannedScanServiceImpl.java,2\8\286db7f6f04930bf7bd85de675b99534efe894d7
-v
-Fsrc/main/java/sn/finappli/cdcscanner/model/output/ScanImageOutput.java,d\7\d71ac72c2edc1ec52ef5771e9cde9c57231b7aa8
 t
 Dsrc/main/java/sn/finappli/cdcscanner/model/input/ServerResponse.java,f\7\f76da6c642f7721757712d9c436933091c362455
 k
@@ -47,12 +45,8 @@ G.idea/sonarlint/issuestore/b/2/b269fc3fb7d2f025d222409f265525d83cde7237,d\8\d8
 Q.idea/sonarlint/securityhotspotstore/c/0/c018197a4321e77b52ab6aee60e21d9c68fdf845,1\6\16b6450b446d1ea0b95cc7ad30b7004ff6622afc
 w
 G.idea/sonarlint/issuestore/c/c/cc8853514b451f2664f9cfb2359c9166158fdf48,6\4\640e2dafc8343cffca24b692e6fe6b049738ba8b
-w
-G.idea/sonarlint/issuestore/d/7/d71ac72c2edc1ec52ef5771e9cde9c57231b7aa8,2\1\21a051a4cb98432597ca021d3560916f7bc0cf1c
 Å
 Q.idea/sonarlint/securityhotspotstore/c/3/c34c2fa3253e0f47d24216c808d9d27d06f07bf6,c\2\c205b302783e38a2fd06e69d96ef4e6f69a7e9fe
-Å
-Q.idea/sonarlint/securityhotspotstore/d/7/d71ac72c2edc1ec52ef5771e9cde9c57231b7aa8,0\4\045b4b220ae98eb7a380faa527e10827ef6251b1
 Å
 Q.idea/sonarlint/securityhotspotstore/e/4/e461b9c8ce3cbe95e69b5994185bf207b890ddc3,0\1\01a994f9a1b8edeb4107c90492edae4db8e8b26e
 w
@@ -186,8 +180,6 @@ Q.idea/sonarlint/securityhotspotstore/5/0/50adeb4964f3012bede6438a831a77a9627254
 Å
 Q.idea/sonarlint/securityhotspotstore/5/0/501af82f393e9a8578c5180cbb69b7ba5f43b30a,2\0\20a5bf880e62995e558a93a6b647ee91c9e34731
 w
-G.idea/sonarlint/issuestore/2/2/229f5a588954640da65371d3f1c9edfd19cb3135,a\b\ab2f8c76bb0dd251a33ba57713aaaee56a54af6a
-w
 G.idea/sonarlint/issuestore/2/8/28fb67301fdca6c8df105c252447e9ef92da80ee,4\3\43ac7db405f36d2b324f0f8b890933a8ae31ed45
 w
 G.idea/sonarlint/issuestore/0/a/0a16e29b1bb23afac0e43e1272be52b5a4b9df9b,7\0\702df94ec4bc9265b997330860f7eb58fcac6c82
@@ -203,8 +195,6 @@ w
 G.idea/sonarlint/issuestore/8/1/816ef0556052581e2b85cfe948ce53e73cc5f182,b\0\b0f862631a9b0e964229ed564142916a2a26f705
 Å
 Q.idea/sonarlint/securityhotspotstore/7/4/740807928bc618df6c48f9644c1330ab4584baf6,7\c\7c1ca2af85872a6fda0a2d7b030df673967a8e67
-Å
-Q.idea/sonarlint/securityhotspotstore/7/4/74ff1485d064c839e572ebba92d79d5009795f83,4\b\4b24fff7e0ea896aa97dc035136294c7eab65df5
 w
 G.idea/sonarlint/issuestore/8/d/8d21322cf6584c6c13870c0ce64f5f102881873b,8\8\8807ea77020a81bc3e6521491ad0688600c955c5
 Å
@@ -454,8 +444,6 @@ Q.idea/sonarlint/securityhotspotstore/3/3/33274cfede1d46f442bf03c8b16baf82138b54
 w
 G.idea/sonarlint/issuestore/2/9/29d45ce1d7f72693916f6806d1808c993ef0cfe1,6\0\607528eed03886505095781c301e7704c3c9c10d
 Å
-Q.idea/sonarlint/securityhotspotstore/2/2/229f5a588954640da65371d3f1c9edfd19cb3135,3\d\3d1949af7e3e380d9c7d87128b446d592a051bc9
-Å
 Q.idea/sonarlint/securityhotspotstore/2/5/25f0dfa9ea044da073cbc22623b86d3b6e794b30,8\c\8ceb7b10fae6925dc3a1afd5961b9b97e537f140
 w
 G.idea/sonarlint/issuestore/1/5/1599a4e8c44d427839a875bc0de7a1fc490b2180,3\d\3dfcfdfb196891e9843bf639d46268256c8da805
@@ -507,8 +495,6 @@ G.idea/sonarlint/issuestore/a/a/aa5fc75a1ba9283aca80071c30898925817ae59a,b\b\bb
 Q.idea/sonarlint/securityhotspotstore/8/f/8f18a430addbe3694d214ef3e20e85a04fe18708,a\9\a9162ab15b1ce38ada9a9c8a93093c4451bb62b0
 Å
 Q.idea/sonarlint/securityhotspotstore/8/b/8b545769202ec6c351aad76728bb8ed2d8791441,f\f\ff99134487838e3ce7e1cda774d88a6d883bc1ca
-Å
-Q.idea/sonarlint/securityhotspotstore/8/b/8bd406e1a0047d3450b28e1c1a8fd2e74a421c84,2\0\208686a3bc9ddafd96cd977e23035c923a9d6118
 w
 G.idea/sonarlint/issuestore/7/4/740807928bc618df6c48f9644c1330ab4584baf6,3\a\3a3d1c83a1ffd8bf735a2718f7947987fe2197a1
 w
@@ -1119,3 +1105,11 @@ s
 Csrc/main/java/sn/finappli/cdcscanner/CDCScannerApplicationMain.java,0\6\06c5731c83840eaa1ed7468889fe240a48b71d41
 }
 Msrc/main/java/sn/finappli/cdcscanner/controller/AuthenticationController.java,1\b\1b4cf78b1ea4c53e2b478a4c5a0bc28964e09631
+s
+Csrc/main/java/sn/finappli/cdcscanner/controller/HomeController.java,7\2\7258244f9878457292fc5d0051ea9d2ff5f57cee
+}
+Msrc/main/java/sn/finappli/cdcscanner/model/output/ScanRegistrationOutput.java,9\e\9ebce09588eafe902473e5e2dcebb140b785bdbb
+
+Osrc/main/java/sn/finappli/cdcscanner/model/output/ChecksRegistrationOutput.java,d\2\d20e151a4fdeb4c2ededa33ea86f06ae3f156a1a
+u
+Esrc/main/java/sn/finappli/cdcscanner/service/RegistrationService.java,4\9\4961093b7f68b7da778142e2b2d3a84bf8341818

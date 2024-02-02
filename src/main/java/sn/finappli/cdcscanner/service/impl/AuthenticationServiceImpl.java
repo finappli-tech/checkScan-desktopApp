@@ -189,7 +189,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         var encoder = response.headers().firstValue("www-authenticate").orElse(SystemUtils.DEFAULT_ENCODER);
         var expiry = LocalDateTime.now().plusSeconds(SystemUtils.TOKEN_EXPIRATION);
-        System.out.println(token); // TODO remove this
         SecurityContextHolder.setContext(new SecurityContext(token, secret, encoder, expiry));
     }
 

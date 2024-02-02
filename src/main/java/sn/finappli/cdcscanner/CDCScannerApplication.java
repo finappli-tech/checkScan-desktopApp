@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sn.finappli.cdcscanner.controller.PreloaderController;
 import sn.finappli.cdcscanner.model.input.YamlConfig;
-import sn.finappli.cdcscanner.security.SecurityContext;
 import sn.finappli.cdcscanner.security.SecurityContextHolder;
 import sn.finappli.cdcscanner.service.RegistrationService;
 import sn.finappli.cdcscanner.service.impl.RegistrationServiceImpl;
@@ -21,7 +20,6 @@ import sn.finappli.cdcscanner.utility.Utils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -59,12 +57,6 @@ public class CDCScannerApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         if (Objects.nonNull(initException)) catchStarterError(initException, false);
-        SecurityContextHolder.setContext(new SecurityContext(
-                "eyJhbGciOiJIUzI1NiJ9.eyJsLWxldiI6IkhtYWNTSEEyNTYiLCJpc3MiOiJhZG1pbl9TQ1AgS0EgRVQgS0EiLCJleHAiOjE3MDY2NDIxMTMsImxvZ2luIjoiYWRtaW5fU0NQIEtBIEVUIEtBIiwianRpIjoiYzI3MTZhOWQtOTVjYS00MTU2LThjODAtMjNkNjk0NWViYzUxIn0.aJV_HiWstuQtNAyp5ClotUc2jtqJTo4Bhb2QxBuEyJg",
-                "9z1pzqakdeazb8fpnqq4cg44ryu9209l",
-                "HmacSHA256",
-                LocalDateTime.now().plusDays(1)));
-
         this.stage = primaryStage;
         var icon = Objects.requireNonNull(CDCScannerApplication.class.getResource("/images/logo.png")).toExternalForm();
         this.stage.getIcons().add(new Image(icon));
@@ -72,7 +64,7 @@ public class CDCScannerApplication extends Application {
         this.stage.setResizable(false);
 
         ConfigHolder.setContext(config);
-        if (isAppRegistered) replaceSceneContent("scanner.fxml", "Connexion");
+        if (isAppRegistered) replaceSceneContent("authentication.fxml", "Connexion");
         else replaceSceneContent("registration.fxml", "Enregistrement");
         stage.show();
         logger.info("Application started successfully");

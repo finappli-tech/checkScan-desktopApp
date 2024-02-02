@@ -1,5 +1,6 @@
 package sn.finappli.cdcscanner.service.impl;
 
+import lombok.SneakyThrows;
 import lombok.val;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
@@ -7,14 +8,16 @@ import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sn.finappli.cdcscanner.model.input.ScanInputPaged;
 import sn.finappli.cdcscanner.model.input.ServerResponse;
-import sn.finappli.cdcscanner.model.output.ScanImageOutput;
-import sn.finappli.cdcscanner.model.output.ScanRegistrationOutput;
+import sn.finappli.cdcscanner.model.output.ChecksRegistrationOutput;
 import sn.finappli.cdcscanner.security.SecurityContextHolder;
 import sn.finappli.cdcscanner.service.ScanService;
 import sn.finappli.cdcscanner.utility.ConfigHolder;
@@ -31,6 +34,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import static sn.finappli.cdcscanner.utility.HttpUtils.calculateHmacSha256;
 import static sn.finappli.cdcscanner.utility.Utils.buildError;
@@ -42,6 +46,18 @@ import static sn.finappli.cdcscanner.utility.Utils.jsonToClass;
 public class ScannedScanServiceImpl implements ScanService {
 
     private static final Logger logger = LoggerFactory.getLogger(ScannedScanServiceImpl.class);
+    private final HttpClientResponseHandler<ServerResponse> handleResponse = response -> {
+        var result = ServerResponse.builder();
+
+        var responseString = EntityUtils.toString(response.getEntity());
+        if (List.of(200, 201, 202).contains(response.getCode()))
+            return result.hasError(false).build();
+
+        var error = buildError(response.getCode(), responseString);
+        logger.error("SAVING SCANNED ITEMS ERROR");
+        logger.error("\tERROR: {}", error);
+        return result.hasError(true).error(responseString).build();
+    };
 
     /**
      * Retrieves a paged list of scanned items from the remote server.
@@ -53,7 +69,7 @@ public class ScannedScanServiceImpl implements ScanService {
     @Override
     public ScanInputPaged listScannedItems(int page) {
         try {
-            HttpClient client = HttpClient.newHttpClient();
+            var client = HttpClient.newHttpClient();
             val date = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
             val uri = "%s?pageNumber=%d&pageSize=%d".formatted(ConfigHolder.getContext().getScannedItemsUrl(), page, ConfigHolder.getContext().getPageItems());
             var request = HttpUtils.appendHeaderAndDigest("GET", uri, null, date)
@@ -63,63 +79,57 @@ public class ScannedScanServiceImpl implements ScanService {
 
             var response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
 
-            if (response.statusCode() != 200) {
-                logger.error("FETCH LIST SCANNED ITEMS ERROR");
-                logger.error("\tSTATUS: {}", response.statusCode());
-                logger.error("\tCONTENT: {}", response.body());
-                return new ScanInputPaged();
-            } else return jsonToClass(ScanInputPaged.class, response.body());
+            if (response.statusCode() == 200) return jsonToClass(ScanInputPaged.class, response.body());
+            logger.error("FETCH LIST SCANNED ITEMS ERROR");
+            logger.error("\tSTATUS: {}", response.statusCode());
+            logger.error("\tCONTENT: {}", response.body());
+            return new ScanInputPaged();
         } catch (Exception e) {
-            catchException(e);
+            if (e instanceof InterruptedException) Thread.currentThread().interrupt();
+            logger.error(e.getMessage(), e);
             return new ScanInputPaged();
         }
     }
 
-    /**
-     * Sends the scan registration output to the remote server.
-     *
-     * @param output The {@link ScanRegistrationOutput} object representing the scan to be registered.
-     * @return A {@link ServerResponse} object indicating the success or failure of the operation.
-     */
     @Override
-    public ServerResponse sendScan(ScanRegistrationOutput output) {
+    public ServerResponse revertSave(List<String> values) {
         var result = ServerResponse.builder();
         try {
             var client = HttpClient.newHttpClient();
-            val content = Utils.classToJson(output);
             val date = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-            val uri = ConfigHolder.getContext().getScannedItemsUrl();
-
-            // Build the request
-            var request = HttpUtils.appendHeaderAndDigest("POST", uri, content, date)
+            val uri = ConfigHolder.getContext().getRevertScannedItemsUrl();
+            val body = Utils.listToJson(values);
+            var request = HttpUtils.appendHeaderAndDigest("PUT", uri, body, date)
                     .uri(URI.create(uri))
-                    .POST(HttpRequest.BodyPublishers.ofString(content))
+                    .PUT(HttpRequest.BodyPublishers.ofString(body))
                     .build();
 
-            var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            var response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
 
-            result.hasError(response.statusCode() > 299);
-            if (response.statusCode() != 200) {
-                var error = buildError(response.statusCode(), response.body());
-                logger.error("SAVING SCAN ERROR");
-                logger.error("\tERROR: {}", error);
-                return result.error(error.getMessage()).build();
-            } else return result.build();
+            if (response.statusCode() == 204) return result.hasError(false).message(response.body()).build();
+
+            var error = buildError(response.statusCode(), response.body());
+            logger.error("REVERTING SAVED SCANNED ITEMS ERROR");
+            logger.error("\tERROR: {}", error);
+            return result.hasError(true).error(response.body()).build();
         } catch (Exception e) {
-            return catchException(e);
+            if (e instanceof InterruptedException) Thread.currentThread().interrupt();
+            logger.error(e.getMessage(), e);
+            return result.error(e.getMessage()).hasError(true).build();
         }
     }
 
     /**
-     * Sends the scanned images to the remote server.
+     * Sends the scanned items to the remote server.
      *
-     * @param output The {@link ScanImageOutput} object representing the scanned images to be sent.
+     * @param output The {@link ChecksRegistrationOutput} object representing the scanned items to be sent.
      * @return A {@link ServerResponse} object indicating the success or failure of the operation.
      */
     @Override
-    public @NotNull ServerResponse sendScannedImages(@NotNull ScanImageOutput output) {
+    public @NotNull ServerResponse saveChecks(@NotNull ChecksRegistrationOutput output) {
+        var result = ServerResponse.builder();
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
-            var uri = ConfigHolder.getContext().getScannedImageUrl().replace("#id", String.valueOf(output.scanId()));
+            var uri = ConfigHolder.getContext().getScannedItemsUrl();
             var sec = SecurityContextHolder.getContext();
             var date = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
             var digest = calculateHmacSha256("POST".concat(uri).concat(date), sec.secret(), sec.encoder());
@@ -128,35 +138,26 @@ public class ScannedScanServiceImpl implements ScanService {
             post.setHeader("cookie", "access_token=%s".formatted(sec.token()));
             post.setHeader("X-Once", date);
             post.setHeader("X-Digest", digest);
+            post.setEntity(constructEntity(output));
 
-
-            val builder = MultipartEntityBuilder.create().setMode(HttpMultipartMode.LEGACY);
-            for (var file : output.files())
-                builder.addBinaryBody("files", file, ContentType.DEFAULT_BINARY, file.getName());
-
-            post.setEntity(builder.build());
-
-            return client.execute(post, response -> {
-                var responseString = EntityUtils.toString(response.getEntity());
-
-                if (response.getCode() <= 299)
-                    return ServerResponse.builder().hasError(false).message(responseString).build();
-                else {
-                    var error = buildError(response.getCode(), responseString);
-                    logger.error("SAVING SCAN IMAGE ERROR");
-                    logger.error("\tERROR: {}", error);
-                    return ServerResponse.builder().hasError(true).error(responseString).build();
-                }
-            });
+            return client.execute(post, handleResponse);
         } catch (IOException | NoSuchAlgorithmException | InvalidKeyException e) {
             logger.error(e.getMessage(), e);
-            return new ServerResponse(true, e.getMessage(), null);
+            return result.error(e.getMessage()).hasError(true).build();
         }
     }
 
-    private @NotNull <T extends Exception> ServerResponse catchException(T e) {
-        if (e instanceof InterruptedException) Thread.currentThread().interrupt();
-        logger.error(e.getMessage(), e);
-        return ServerResponse.builder().hasError(true).error(e.getMessage()).build();
+    @SneakyThrows
+    @Contract(pure = true, value = "_ -> new")
+    private @NotNull HttpEntity constructEntity(@NotNull ChecksRegistrationOutput output) {
+        val builder = MultipartEntityBuilder
+                .create()
+                .setMode(HttpMultipartMode.LEGACY)
+                .addTextBody("check", Utils.classToJson(output.getBody()));
+
+        List.of(output.getFileD(), output.getFileR(), output.getFileV())
+                .forEach(file -> builder.addBinaryBody("files", file, ContentType.DEFAULT_BINARY, file.getName()));
+        return builder.build();
     }
+
 }

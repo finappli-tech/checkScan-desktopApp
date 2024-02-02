@@ -24,7 +24,7 @@ public final class YamlConfig {
     private String requestLoginUrl;
 
     private String scannedItemsUrl;
-    private String scannedImageUrl;
+    private String revertScannedItemsUrl;
 
     private int pageItems;
 

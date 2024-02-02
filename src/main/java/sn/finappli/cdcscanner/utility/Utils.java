@@ -7,10 +7,6 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
-import javafx.scene.layout.Region;
-import javafx.util.Duration;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sn.finappli.cdcscanner.model.input.APIError;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -98,6 +93,18 @@ public final class Utils {
     public static <T> List<T> jsonToList(Class<T> elementType, String json) throws JsonProcessingException {
         CollectionType listType = JSON_MAPPER.getTypeFactory().constructCollectionType(List.class, elementType);
         return JSON_MAPPER.readValue(json, listType);
+    }
+
+    /**
+     * Converts a List of objects to its corresponding JSON representation.
+     *
+     * @param list The List of objects to be converted to JSON.
+     * @param <T>  The type of objects in the List.
+     * @return A JSON representation of the input List.
+     * @throws JsonProcessingException If an error occurs during JSON processing.
+     */
+    public static <T> String listToJson(List<T> list) throws JsonProcessingException {
+        return JSON_MAPPER.writeValueAsString(list);
     }
 
     /**
@@ -194,28 +201,6 @@ public final class Utils {
     @Contract("_ -> new")
     public static @NotNull String bigDecimalToFormattedFRString(@NotNull BigDecimal value) {
         return FORMATTER.format(value.doubleValue());
-    }
-
-    /**
-     * Configures a refresh button with a refresh icon and tooltip.
-     *
-     * @param button The {@link Button} to be configured as a refresh button.
-     */
-    public static void configureRefreshButton(@NotNull Button button) {
-        var tooltip = new Tooltip("Rafraîchir");
-        tooltip.setShowDelay(Duration.ZERO);
-        button.setTooltip(tooltip);
-        try {
-            var image = SVGTranscoder.transcodeSVG("/images/refresh.svg");
-            image.setFitHeight(30);
-            image.setPreserveRatio(true);
-            button.setGraphic(image);
-        } catch (IOException | NullPointerException e) {
-            LOGGER.error(e.getMessage(), e);
-            var region = new Region();
-            region.getStyleClass().add("refresh-icon");
-            button.setGraphic(region);
-        }
     }
 
     /**

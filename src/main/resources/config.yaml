@@ -1,14 +1,15 @@
-baseUrl: http://51.75.242.129:8079/api
+#baseUrl: http://51.75.242.129:8079/api
+baseUrl: http://localhost:8090/api
 
 checkAppRegistrationUrl: ${baseUrl}/tokens/signup/check-scanner
 registrationUrl: ${baseUrl}/tokens/signup/scanner
 
 scannedItemsUrl: ${baseUrl}/check-scan
-scannedImageUrl: ${baseUrl}/check-scan/#id/images
+revertScannedItemsUrl: ${baseUrl}/check-scan/revert
 
 requestLoginUrl: ${baseUrl}/tokens/signin/scanner/request
 requestLoginUsersUrl: ${baseUrl}/tokens/signin/scanner/users
-loginUrl:  ${baseUrl}/tokens/signin/scanner
+loginUrl: ${baseUrl}/tokens/signin/scanner
 
 pageItems: 17
 loginTokenCountdown: 300

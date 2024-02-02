@@ -37,6 +37,10 @@
     -fx-background-color: transparent;
 }
 
+.text-xs {
+    -fx-font-size: 10 !important;
+}
+
 .text-sm {
     -fx-font-size: 12 !important;
 }
@@ -102,7 +106,7 @@
     -fx-font-size: 14px;
 }
 
-.bold-disabled:disabled {
+.bold-disabled {
     -fx-opacity: 1 !important;
     -fx-fill: black !important;
     -fx-font-weight: 700 !important;
@@ -125,10 +129,18 @@
     -fx-border-color: transparent;
 }
 
-.button.return-button {
+.button.return-button,
+.button.send-button {
     -fx-background-color: white;
     -fx-text-fill: -fx-primary-color;
-    -fx-font-size: 17px;
+    -fx-font-size: 15px;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.button.send-button {
+    -fx-background-color: white !important;
+    -fx-text-fill: -fx-primary-color;
 }
 
 .button.launch-scan-button {
@@ -136,9 +148,9 @@
     -fx-cursor: hand;
 }
 
-.button.return-button:hover {
-    -fx-background-color: -fx-primary-color !important;
-    -fx-text-fill: white !important;
+.button.return-button:hover,
+.button.send-button:hover {
+    -fx-background-color: wheat !important;
 }
 
 /*######################### TABLE ##########################*/
@@ -209,7 +221,7 @@
 }
 
 /*################## Refresh Icon Button #####################*/
-.refresh-button {
+.refresh-button, .pagination-previous, .pagination-next {
     -fx-cursor: hand;
     -fx-background-color: transparent;
     -fx-content-display: graphic-only;
@@ -226,6 +238,15 @@
     -fx-max-height: -size;
     -fx-max-width: -size;
     -fx-shape: "M21 12C21 16.9706 16.9706 21 12 21C9.69494 21 7.59227 20.1334 6 18.7083L3 16M3 12C3 7.02944 7.02944 3 12 3C14.3051 3 16.4077 3.86656 18 5.29168L21 8M3 21V16M3 16H8M21 3V8M21 8H16";
+}
+
+/*################ Custom pagination button ####################*/
+.pagination-previous, .pagination-next {
+    -size: 16;
+    -fx-min-height: -size;
+    -fx-min-width: -size;
+    -fx-max-height: -size;
+    -fx-max-width: -size;
 }
 
 /*################# Progress Bar Indicator #######################*/
@@ -252,7 +273,6 @@
     -fx-border-color: -fx-primary-color;
     -fx-border-width: 1;
     -fx-border-radius: 10;
-    /*-fx-background-radius: 5;*/
 }
 
 /*################## Choice box (DropDown) #######################*/
@@ -292,6 +312,7 @@
 .date-picker {
     -fx-font-size: 13px;
     -fx-border-color: -fx-primary-color;
+    -fx-font-weight: 700;
 }
 
 .date-picker .arrow-button {
